@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-27 00:00" pubdate>
-        2021年2月27日 凌晨
+      <time datetime="2021-03-07 00:00" pubdate>
+        2021年3月7日 凌晨
       </time>
     </span>
   
@@ -270,7 +270,7 @@
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gnxyqx742gj30ja07iwi6.jpg" srcset="/img/loading.gif" alt="image-20210224010602445"></p>
 <h3 id="03-调用ScriptEngine"><a href="#03-调用ScriptEngine" class="headerlink" title="03 : 调用ScriptEngine"></a>03 : 调用ScriptEngine</h3><p>从<strong>ruilin</strong>师傅的文章学到还可以用js引擎(不知道能不能用颜文字或者其他js绕过的方法到这里，暂时没实验成功，测试成的师傅可以分享下).</p>
 <p>获取所有js引擎信息的代码</p>
-<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        ScriptEngineManager manager = <span class="hljs-keyword">new</span> ScriptEngineManager();<br>        List&lt;ScriptEngineFactory&gt; factories = manager.getEngineFactories();<br>        <span class="hljs-keyword">for</span> (ScriptEngineFactory factory: factories)&#123;<br>                System.out.printf(<br>                    <span class="hljs-string">&quot;Name: %s%n&quot;</span> + <span class="hljs-string">&quot;Version: %s%n&quot;</span> + <span class="hljs-string">&quot;Language name: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Language version: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Extensions: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Mime types: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Names: %s%n&quot;</span>,<br>                    factory.getEngineName(),<br>                    factory.getEngineVersion(),<br>                    factory.getLanguageName(),<br>                    factory.getLanguageVersion(),<br>                    factory.getExtensions(),<br>                    factory.getMimeTypes(),<br>                    factory.getNames()<br>                );<br>        &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    ScriptEngineManager manager = <span class="hljs-keyword">new</span> ScriptEngineManager();<br>    List&lt;ScriptEngineFactory&gt; factories = manager.getEngineFactories();<br>    <span class="hljs-keyword">for</span> (ScriptEngineFactory factory: factories)&#123;<br>        System.out.printf(<br>          <span class="hljs-string">&quot;Name: %s%n&quot;</span> + <span class="hljs-string">&quot;Version: %s%n&quot;</span> + <span class="hljs-string">&quot;Language name: %s%n&quot;</span> +<br>          <span class="hljs-string">&quot;Language version: %s%n&quot;</span> +<br>          <span class="hljs-string">&quot;Extensions: %s%n&quot;</span> +<br>          <span class="hljs-string">&quot;Mime types: %s%n&quot;</span> +<br>          <span class="hljs-string">&quot;Names: %s%n&quot;</span>,<br>          factory.getEngineName(),<br>          factory.getEngineVersion(),<br>          factory.getLanguageName(),<br>          factory.getLanguageVersion(),<br>          factory.getExtensions(),<br>          factory.getMimeTypes(),<br>          factory.getNames()<br>        );<br>    &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
 
 <blockquote>
 <p>  Name: Oracle Nashorn<br>  Version: 1.8.0_261<br>  Language name: ECMAScript<br>  Language version: ECMA - 262 Edition 5.1<br>  Extensions: [js]<br>  Mime types: [application/javascript, application/ecmascript, text/javascript, text/ecmascript]<br>  <strong>Names: [nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript]</strong></p>
@@ -295,7 +295,7 @@
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1go0iqexgm2j30fs04pt8p.jpg" srcset="/img/loading.gif" alt="image-20210224040143681"></p>
 <p>然后简单介绍ClassLoader :</p>
 <p> JVM(java虚拟机) 拥有多种ClassLoader, 不同的 ClassLoader 会从不同的地方加载字节码文件, 加载方式可以通过不同的文件目录加载, 也可以从不同的 jar 文件加载，还包括使用网络服务地址来加载。几个重要的 ClassLoader : <code>BootstrapClassLoader</code>、<code>ExtensionClassLoader</code> 和<code>AppClassLoader</code>、<code>UrlClassLoader</code></p>
-<p>![image-20210226060838110](/Users/h3zh1/Library/Application Support/typora-user-images/image-20210226060838110.png)</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1go24rdsytgj30ap09b74h.jpg" srcset="/img/loading.gif" alt="image-20210226060838110"></p>
 <p>下面构造会用到<code>AppClassLoader</code>和<code>UrlClassLoader</code></p>
 <h3 id="04-UrlClassLoader"><a href="#04-UrlClassLoader" class="headerlink" title="04 : UrlClassLoader"></a>04 : UrlClassLoader</h3><blockquote>
 <p>  URLClassLoader 可以加载远程类库和本地路径的类库</p>
@@ -404,7 +404,7 @@
 <p><strong>外部的cookie绕过</strong></p>
 <p><code>[[$&#123;#request.getRequestedSessionId()&#125;]]</code></p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gny6w7vqwyj30o201yt8s.jpg" srcset="/img/loading.gif" alt="image-20210224054758847"></p>
-<h3 id="卖关子"><a href="#卖关子" class="headerlink" title="卖关子"></a>卖关子</h3><p>其实完全可以通过<strong>getParameterValues</strong>的用于获取class来完成反射从而<strong>rce</strong>,有兴趣的可以先试试 , 卖个关子过段时间放一哈</p>
+<p>其实完全可以通过<strong>getParameterValues</strong>方法的来获取String[]的class，配合任意一个request返回值为string的函数来完成反射的调用,从而<strong>rce</strong> , ,或许你的构造会用到substring、replace，有兴趣的可以尝试一下</p>
 <p><strong>参考 :</strong></p>
 <p>Ruilin 由浅入深SpEL表达式注入漏洞 : <a target="_blank" rel="noopener" href="http://rui0.cn/archives/1043">http://rui0.cn/archives/1043</a></p>
 <p>EL : <a target="_blank" rel="noopener" href="https://www.runoob.com/jsp/jsp-expression-language.html">https://www.runoob.com/jsp/jsp-expression-language.html</a></p>
@@ -443,8 +443,8 @@
     <div id="disqus_thread"></div>
     <script type="text/javascript">
       var disqus_config = function() {
-        this.page.url = 'http://example.com/2021/02/27/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
-        this.page.identifier = '/2021/02/27/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
+        this.page.url = 'http://example.com/2021/03/07/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
+        this.page.identifier = '/2021/03/07/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
       };
       Fluid.utils.waitElementVisible('disqus_thread', function () {
         var d = document, s = d.createElement('script');
