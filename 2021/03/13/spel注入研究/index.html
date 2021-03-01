@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="h3zh1">
   <meta name="keywords" content="">
-  <title>SpEL注入研究 - h3zh1&#39;s blog</title>
+  <title>SpEL注入走位研究 - h3zh1&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="SpEL注入研究">
+            <span class="h2" id="subtitle" title="SpEL注入走位研究">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-07 00:00" pubdate>
-        2021年3月7日 凌晨
+      <time datetime="2021-03-13 00:00" pubdate>
+        2021年3月13日 凌晨
       </time>
     </span>
   
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      39
+      40
        分钟
     </span>
   
@@ -224,7 +224,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">SpEL注入研究</h1>
+            <h1 style="display: none">SpEL注入走位研究</h1>
             
             <div class="markdown-body">
               <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>和伙计一起研究了一下SpEL注入RCE分析以及技巧，抛砖引玉，拿来分享一下。</p>
@@ -351,7 +351,7 @@
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">T(com.ctf.controller.Demo).getClass().getClassLoader()<br></code></pre></div></td></tr></table></figure>
 
 <p>新的类扩展比较多，上升到实际的话，如果是黑盒可以猜一些常用的依赖，然后测试一些类名；如果是代码审计那就直接看pom.xml或者lib里的包就好了</p>
-<h3 id="07-通过内置对象加载UrlClassLoader"><a href="#07-通过内置对象加载UrlClassLoader" class="headerlink" title="07: 通过内置对象加载UrlClassLoader"></a>07: 通过内置对象加载UrlClassLoader</h3><p>request、response对象是web开发的常客 ,根据一些源码以及测试我发现他在项目启动后中会自动注册到spel中</p>
+<h3 id="07-通过内置对象加载UrlClassLoader"><a href="#07-通过内置对象加载UrlClassLoader" class="headerlink" title="07: 通过内置对象加载UrlClassLoader"></a>07: 通过内置对象加载UrlClassLoader</h3><p>request、response对象是web开发的常客 ,根据一些源码以及测试我发现他在项目启动后中会自动注册到spel中，当然我还不知道用什么办法找到所有内置注册了的对象。</p>
 <p>我们可以通过HttpServletRequest或者HttpServletResponse获得URLClassLoader</p>
 <p><code>#response.getClass().getClassLoader()</code></p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1go0iv2laz6j30eg0cqwfa.jpg" srcset="/img/loading.gif" alt="image-20210226061311374"></p>
@@ -369,14 +369,14 @@
 <figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&#123;<span class="hljs-string">&quot;java.+lang&quot;</span>, <span class="hljs-string">&quot;Runtime|Process|byte|OutputStream|session|\&quot;|&#x27;&quot;</span>, <span class="hljs-string">&quot;exec.*\\(&quot;</span>, <span class="hljs-string">&quot;write|read&quot;</span>, <span class="hljs-string">&quot;invoke.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.forName.*\\(&quot;</span>, <span class="hljs-string">&quot;lookup.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.getMethod.*\\(&quot;</span>, <span class="hljs-string">&quot;javax.+script.+ScriptEngineManager&quot;</span>, <span class="hljs-string">&quot;com.+fasterxml&quot;</span>, <span class="hljs-string">&quot;org.+apache&quot;</span>, <span class="hljs-string">&quot;org.+hibernate&quot;</span>, <span class="hljs-string">&quot;org.+thymeleaf&quot;</span>, <span class="hljs-string">&quot;javassist&quot;</span>, <span class="hljs-string">&quot;javax\\.&quot;</span>, <span class="hljs-string">&quot;eval.*\\(&quot;</span>, <span class="hljs-string">&quot;\\.getClass\\(&quot;</span>, <span class="hljs-string">&quot;org.+springframework&quot;</span>, <span class="hljs-string">&quot;javax.+el&quot;</span>, <span class="hljs-string">&quot;java.+io&quot;</span>&#125;<br></code></pre></div></td></tr></table></figure>
 
 <p>我们从两个大的方向来考虑绕过: 不能有字符串、不可以直接用Runtime等类</p>
-<h4 id="不能直接使用类"><a href="#不能直接使用类" class="headerlink" title="不能直接使用类"></a>不能直接使用类</h4><p>第一种解决办法:</p>
-<p>明面上Runtime等类被禁用我们可以使用06所说的自定义类来加载进来,字符串用第二方向的办法.</p>
+<h4 id="方向1-不能直接使用类"><a href="#方向1-不能直接使用类" class="headerlink" title="方向1:不能直接使用类"></a>方向1:不能直接使用类</h4><p>第一种解决办法:</p>
+<p>明面上Runtime等类被禁用我们可以使用06所说的自定义类来加载进来,字符串考虑<strong>方向2</strong>的办法.</p>
 <p>第二种解决办法:</p>
 <p>ddctf里拥有几个自定义类safafilter和com.ctf.model.User,</p>
-<p>只要通过源码中的import块来找到全限定类名就可以完成绕过加载，</p>
+<p>只要通过源码中的import块来找到全限定类名就可以完成绕过加载</p>
 <p>第三种:</p>
 <p>还可以使用 <strong>07</strong> 提到的equest、response两个实例也可拿来加载对象。</p>
-<h4 id="不能直接使用字符串"><a href="#不能直接使用字符串" class="headerlink" title="不能直接使用字符串"></a>不能直接使用字符串</h4><p>引号被过滤不可以直接使用字符串，这里提供三种构造字符串的方法</p>
+<h4 id="方向2-不能直接使用字符串"><a href="#方向2-不能直接使用字符串" class="headerlink" title="方向2:不能直接使用字符串"></a>方向2:不能直接使用字符串</h4><p>引号被过滤不可以直接使用字符串，这里提供三种构造字符串的方法</p>
 <ol>
 <li> <code>T(类名).getName()</code>会返回字符串类型的全限定类名</li>
 </ol>
@@ -404,6 +404,7 @@
 <p><strong>外部的cookie绕过</strong></p>
 <p><code>[[$&#123;#request.getRequestedSessionId()&#125;]]</code></p>
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gny6w7vqwyj30o201yt8s.jpg" srcset="/img/loading.gif" alt="image-20210224054758847"></p>
+<p>最后:</p>
 <p>其实完全可以通过<strong>getParameterValues</strong>方法的来获取String[]的class，配合任意一个request返回值为string的函数来完成反射的调用,从而<strong>rce</strong> , ,或许你的构造会用到substring、replace，有兴趣的可以尝试一下</p>
 <p><strong>参考 :</strong></p>
 <p>Ruilin 由浅入深SpEL表达式注入漏洞 : <a target="_blank" rel="noopener" href="http://rui0.cn/archives/1043">http://rui0.cn/archives/1043</a></p>
@@ -449,8 +450,8 @@
     <div id="disqus_thread"></div>
     <script type="text/javascript">
       var disqus_config = function() {
-        this.page.url = 'http://example.com/2021/03/07/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
-        this.page.identifier = '/2021/03/07/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
+        this.page.url = 'http://example.com/2021/03/13/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
+        this.page.identifier = '/2021/03/13/spel%E6%B3%A8%E5%85%A5%E7%A0%94%E7%A9%B6/';
       };
       Fluid.utils.waitElementVisible('disqus_thread', function () {
         var d = document, s = d.createElement('script');
