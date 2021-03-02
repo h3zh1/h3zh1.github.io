@@ -227,7 +227,7 @@
             <h1 style="display: none">SpEL注入的走位研究</h1>
             
             <div class="markdown-body">
-              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>和伙计一起研究了一下SpEL注入RCE分析以及技巧，抛砖引玉，拿来分享一下。</p>
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>和伙计一起研究了一下SpEL注入RCE分析以及技巧，来分享一下 , 抛砖引玉。</p>
 <h2 id="SpEL注入基础"><a href="#SpEL注入基础" class="headerlink" title="SpEL注入基础"></a>SpEL注入基础</h2><h3 id="SpEL简介"><a href="#SpEL简介" class="headerlink" title="SpEL简介"></a>SpEL简介</h3><p>Spring表达式语言（简称 <strong>SpEL</strong>，全称<strong>Spring Expression Language</strong>）是一种功能强大的表达式语言，支持在运行时查询和操作对象图。它语法类似于OGNL，MVEL和JBoss EL，在方法调用和基本的字符串模板提供了极大地便利，也开发减轻了Java代码量。另外 , SpEL是Spring产品组合中表达评估的基础，但它并不直接与Spring绑定,可以独立使用。</p>
 <h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法:"></a>基本用法:</h3><p> SpEL调用流程 : 1.新建解析器 2.解析表达式 3.注册变量(可省,在取值之前注册) 4.取值</p>
 <p>示例1:不注册新变量的用法</p>
