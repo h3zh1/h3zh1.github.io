@@ -340,7 +340,7 @@ img[srcset] {
 }
 :root {
   --color-mode: 'light';
-  --body-bg-color: #fff;
+  --body-bg-color: #edd;
   --board-bg-color: #F8F8FF;
   --text-color: #3c4858;
   --sec-text-color: #718096;
