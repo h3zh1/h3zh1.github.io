@@ -236,7 +236,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">masscan -p80 192.168.3.0/24<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ae1abkcj30h803taak.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104061411939"></p>
-<p>访问发现了flag1，发现了提示“或许你可以尝试cewl”</p>
+<h2 id="2-漏洞发现利用"><a href="#2-漏洞发现利用" class="headerlink" title="2. 漏洞发现利用"></a>2. 漏洞发现利用</h2><p>访问发现了flag1，发现了提示“或许你可以尝试cewl”</p>
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ae4p213j30po0gmdgr.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104055509829"></p>
 <h3 id="cewl"><a href="#cewl" class="headerlink" title="cewl"></a>cewl</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">cewl dc-2 &gt; dc-2pwd.txt<br></code></pre></td></tr></table></figure>
 
@@ -258,12 +258,12 @@
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy18xeazpaj30pj091mz6.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104063736520"></p>
 <p>然后发现cat不能用，shell使用的rbash，可以使用vi读取文件，或者less也可。把常用的指令都试试就出了。</p>
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aend2n9j30rz02h0sv.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104070048688"></p>
-<p>flag3提示“需要su，登陆jerry”</p>
-<h3 id="突破rbash"><a href="#突破rbash" class="headerlink" title="突破rbash"></a>突破rbash</h3><p>可以使用vi突破限制，参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1680551">https://cloud.tencent.com/developer/article/1680551</a></p>
+<p>flag3提示“需要su登陆jerry”</p>
+<h2 id="3-提权部分"><a href="#3-提权部分" class="headerlink" title="3. 提权部分"></a>3. 提权部分</h2><h3 id="突破rbash"><a href="#突破rbash" class="headerlink" title="突破rbash"></a>突破rbash</h3><p>可以使用vi突破限制，参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1680551">https://cloud.tencent.com/developer/article/1680551</a></p>
 <p>这里可以使用vi末行输入<code>setshell=/bin/bash 然后 shell</code>，但是cat仍然不可用，可以ls或者使用tab键找可以使用的指令</p>
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aeqkja4j30rn0gjdj6.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104065805501"></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>为了使用su，必须可以把su到PATH环境变量，此时cat等命令也可以用了</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">export</span> PATH=/usr/sbin:/usr/bin:/sbin:/bin<br>su jerry <span class="hljs-comment"># adipiscing</span><br></code></pre></td></tr></table></figure>
+<p>为了使用su，必须把su到PATH环境变量，当然此时cat等命令也可以用了</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">export</span> PATH=/usr/sbin:/usr/bin:/sbin:/bin<br>su jerry <span class="hljs-comment">#切换为jerry 密码:adipiscing</span><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1aerxz8ej30qv0c7jtg.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104071132750"></p>
 <p>通过cat获得jerry的flag4.txt，尝试提权发现可以用的(nmap、vim、find、bash、more、less、nano、cp)</p>
@@ -289,7 +289,7 @@
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1afb80b5j30ng0fh77v.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104072530822"></p>
 <h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>在我们获得了root之后就可以拿到flag了</p>
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1afg4kigj30gf0aldgy.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104072725788"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ol>
+<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ol>
 <li><p> <code>sudo -l</code>可以查看root下的一些指令</p>
 </li>
 <li><p>suid提权，已知的可用来提权的linux可行性的文件列表：nmap、vim、find、bash、more、less、nano、cp</p>
