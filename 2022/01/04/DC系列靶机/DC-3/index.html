@@ -189,7 +189,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      8
        分钟
     </span>
   
@@ -276,6 +276,23 @@
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wyen7mkj30dn05kt8x.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104202857994"></p>
 <p>执行doubleput，flag在/root下</p>
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wyatfvzj30i90jljtp.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104202835076"></p>
+<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><ol>
+<li> 搜索漏洞可以使用<strong>searchsploit</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">searchsploit Ubuntu 16.04  <br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li> joomla漏洞扫描</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">joomscan -u <span class="hljs-string">&quot;http://192.168.3.19/&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1x7w3m4fj30ef0dy40d.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104203816491"></p>
+<ol start="3">
+<li> John破解hash</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu&#x27;</span> &gt; dc-3hash.txt<br>jhon dc-3hash.txt<br>破解得到密码snoopy<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1uxaojm0j30ks0740u4.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104191915310"></p>
 
             </div>
             <hr>
