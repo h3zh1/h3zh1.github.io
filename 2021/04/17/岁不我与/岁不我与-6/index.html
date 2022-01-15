@@ -1,228 +1,35 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
-
-
-
+<html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/bg/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
-  <meta name="author" content="何止">
-  <meta name="keywords" content="">
-  
-  <title>岁不我与_5 - 何止</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        何止
+    </title>
     
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
     
-      
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
     
-  
+<link rel="stylesheet" href="/css/style.css">
 
-  
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-  
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-<!-- 自定义样式保持在最底部 -->
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
-
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>何止的Blog</strong>&nbsp;</a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;</a>
-          </li>
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" href="javascript:">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            岁不我与_5
+        </p>
+        <hr>
     </div>
-  </div>
-</nav>
-
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="岁不我与_5">
-              
-            </span>
-
-            
-              <div class="mt-3">
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-17 01:37" pubdate>
-        2021年4月17日 凌晨
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      1
-       分钟
-    </span>
-  
-
-  
-  
-</div>
-
-            
-          </div>
-
-          
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">岁不我与_5</h1>
-            
-            <div class="markdown-body">
-              <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+    <div class="post-content">
+        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
   <script id="hbeData" type="hbeData" data-hmacdigest="cb8109aa5e6af4fd4fccd63e8c785c0633f6a7b57e7b7d16be3a1d6380581e1a">a98160782ca563b6c25afa87c15778b92371351b9da6361c6a3b1fea3e57f9bb1740cf7099c0626243298d682dd471819767aa8098f59367e377102e69b2e5269b8afa8476c09e301d51206ccbbf9988106c6c9ebc4105bb8a0495b0c33fb7be67fcc5ff3e4bc0956e7f43e12915a70fb093654eb79dca6c48d9374dc09baeb13bd06ee9d2d04dc22ac72da700da6ee2a75a73e9a301167df8ab520fb5a0564c498cf96d31589483180b6714de8aa420ac2703a7455fc77c6eb57faf6ddd7486209d06efa82b405fd7b00edaf3436797901287fa842a40ee0dca4dd4b3c81158a420e5f0accd799b72487e7d1ee2c5b71d299829a756f6778ec93fd4236b8ebb25672add90b9b67818882a79bf9fec2f93302df967a822ad4c2fa4f565a126baf9f59e5d2fd8665319e69c3d68a7498de1f2b19023b0e3deb8702578902e03bf5d9d03fbdf0ac467d07b63ec2b5eb2582d7093b8e201652d0356bbfd3d85a77f5dedd61427d0a15e062ac706efdf333ad14ac47b8dfac02f233aaf523835c563b5377c11e851562fd5791eed83905b31ebe77adae9318536120e0c3ba82fd42258c5d21e3d9dec94fabde65eba05918e419eb3c70dc0b87d70075f50943ec06a1e7c5b638a9555c2cfa017e0dec48c617cc6d944d6bd04fd20a27da977044d038ff966acf6feb2b1e542a08c1f2cbb0424feac99dc6a560deab0f2c1e5b1bb323179c3faf4fafc77e740ffa210972448892b96d4b9babfc647c406f1e0e303db74ef0e43d6043556a0b869b628c484b148ffb37f742dcf11ef6753a29fb3607fde8c5ce49a59f28faf08728edc3d3c1421de6024c4b823253bed7b99e232086689550cb2bc818f253fafdb2a1155d2e48bbd76388965f72c0ff97dd7db950d76f2fa10e95e6bed09e42aa083e58f888cc9b2d1da30f7288326246edf4dba8615bc88a8d1d0e2445388db81870a1679ef1f74c3e5fa0ef2bb5158ec6f4a75484264d2aeb68ddb9934895746d9d9e8540111d069f42f17360ff86583adf6881285391366cc023ebe0f37905cddded8c95702dbe8309b2252868ca2a2b9b9c95c06952ec27c677a512726bccb983ed2c165e180f5442583b2305476ca97a4459b3b26ef961f9d4a01dc0196a34ce1ec2211cdd686261fa57e3a557d995cbb9702d2968fcbccb4e1c02eb0d92d401769395b0096fe1260687de2fe91ab7f886fb5c62906cc6af7c2e721c0359c82509497dad5cfb2072d59fbaefe735284d664480eaa4667bf8394c5d7b83ab3b06127be982ff8c00042a23ffb34d000eadec1d6e77a5aad543a390d56bd487980edf1fa755e6819d503791453e216bb395846f48bd028dacd3a58f8b1570c8e4ebd2160e8851e26b66670af0fdc9027ba9a1edda63ba96252c472bcd70717403f87c4df8f9aef1ecfaa160edce6004e8b0694df49e17697a4bba46adcda1116ae3cb4a94d74bef20ea1f996dbc1499d115f6c03b65632377eabfac6bf06614621090414c505ddbfcde31edabaf4749f23f80f35a4d61b8040cdb82c861c4179f545f09c549bde57da4b6e97a82665749869d2cfb9bed7e21d323618a28b3e006bb55b173627c90b1817d116b7e4d716398b41cf9a3fcabc2e32dc03c2305aaa7d0c7a8fb51d5ba2a886534d56b64afb0f270cfe196123b61b987c8ed0cfca32ad74a4bbdb66f790b2bbb625a2c494b2c12de97da18cbf1ecd6d0c7aefa49fe87eb24f6c12bc7e126b696a5dc16d3dcaaec678bc6f4cf07bb605fe6561f4a22e31005676d4e4196efc481f05a2f3fdf2c458108077c61a67fb68870a17964b52fc54b6f1a59755a064f0cbd5f5fcf32da667e40a4d1c2c666c63ada1d2a8ef687af7a8fb2e9b041e8c240bac98125bdbda1e8fc202390145be8a55b6514aff56c50cc3c6e9e327aa57177e41c1db7027f17cf1170dc01e4250b5e5c5a2e5471503cb7baa0215b2c20f4b21b86c4c1d19356477804c8c1e9ebd6b5d9dc4dba124efae4876efee116c45e0640a945c0d67e9dec34b5dfc88eeda74d86f841f1afba3c42e0902b8f906d22dd8c99cbba70c6866f88f58b3675b615952c15cb39807db5903bb72ca3adcd68164057bed8d17f240d64dacf67e1de0e41ab58e8daf703716e27cece03b2f104f056409a0b16b7e0d01d55d328734add16199218bb21c4af9ac04a97c0cc832eaa64f5f4bc4c38b89011d1cd70d1b9a022bc0f5d83a286eb311d5d91fb17ba6193239bd342dbb45ccd59972f74270d25d885e2a463576c7ed94de3a2b450d8df00b27edf66fc172d3bfb944a0219a95d76e60d5fd0321b72da3ba47cb106eb82558d8cd38821d378f58b033bb3dd60593b9eac2d40c05ce0a9a1a06b339336e2305e9c04df9a540e27c38817721b79a0b7714c839a9b1bef383dacdd342a5359789004c419c3cd7e4808ace5db121f072fd6a573a8c0e3da9da8abe5bbb4f71bf29317070b23b46c80abdbb12e2e83cb3c301b229bbcc8fe5ae76a7aa67eb6a5126e21a71088bf3ee0a0d54edf3d6bf67af21b290d6850b4ccaf2de6045f36ad780da054cfc8329392c91b579d4c9afeaea92b5874bf504910d6e7716b45f765afc81f9809e3fc2b678a16db643899e9fc71d98248a1238b3dc1f6e3c416fbb3dfcaae65f835697304f5d25411b39ec1028a068265de4c3faa2a8d6a59c1cfcb64af9775f098254c9b4b0d43b99ce4f54a2029f762fa34290adeab730239cb1ec250fabd450759abc53c9cee7fd5abe65b1c105830fa66218c360261598d80966bc2c6b9a2cc7af37b6bddc896469c0e035a939aa87a02666776a8944ec0d46a6d474e797e04359dbbcb90f41539d91a7c2c5c45f968e9b24c8623df87f14a5c9112166abb5f264965acdc2a0c66e867dcff87e8f63648458630b38b70a4f771221bb0af065a01c590bacacba3b70b9350ad1a2fdf4be68aa99788b88fb40d57745dfafcb265e884c64bcba744a240a4d680c21fa93f1a4958f4f27d30dba3be92d8919324d952711215c8303412dd42ababf33f00f2f6e8e2e8d5f5f503474729de7054e020989ee4ec5616d0d9efc722ba7cbcff7113086395e11acd9e83f6fa6af08b048b0555d219b09a1b8f69606b4dcc5288586bc4f899dfbd8cbb294b2fc384f83522928ce25a8b4b1025bedec5531796884fc23247ea00a6e3a678af558f72d353fc102e27270216e0bd3f6844e4ce53b485e4776de247411c3066477aef5c8c1b9e9ada793d096a4081bf19fd97b35658234fd2b7eff18148f80cb217cbce56c2b08557de8d9657208d5133807bc7ccc0c7831bc965a678319296ae6fe41ba0e42760c196a1198a527b0f69e9059626abc504c0ad64853a4a2942e2a96877c087230286e34dae7163b17b614b14f4510d12a1adfc03f85d81f782e0bb7e610739816722a13f9b90d8b795a7aafe2c5898f5bf041f475b793a4210aafa4988447bfe95f4331f08a9c805978f4a3f7e36a8a3de70b5e3f4657ce099df70f2377c4acd1405f834cb0bc729bd82272df19a703ad703b86df47ec051110320f4f8afae916b68ec2391476c00509883e5df90ff27ed1d2380352027a073d0153675c798d0c3f6e21727a5855d548fc7099af0772233d1488da381bb01fce8d3f8e04555bc470213f39da2860c9b93237e98a4af2d1f39c93e867feb3eeae44da53e30fa2bcf0ec04312dd9390d61ede6ccd9a0db1a65ea7841d32a9b0375d215cc93bee2ade983e753e5aaed5bf06d7c02f4520517eb096a13b7819cab059a432d88a1301a2486b9524b63bd5a49ace98798da6c64cb22c4de6d53526fcb737acdafddd2ec3d7d34a347bec44f97f82be96e1cb578e33411a34b07c24e1211651c7621911ccbd2a499e9c603e70cdcad9259f9533a25caf5c495908ffeb232d0a867a019370d011071dd23b90f15a6ac33e802272afe92ba309e967fd1b66c3e21a61467d5ad099ad8fbff266633491568b37d58bbc002b5ede15ec521d4033b8f9f5720682dc8bfb0f3fccec51f05e89cb31efc1943578e6b6769c6b2f2fc4c454ccf6642d21a9bf8f6500238b88c33080bce948b5113f1c53523837e3791735137a381ec085909efc14d6e5c306ee03a85759cf5387335b7e0dc5445a8cde9a3216d74799a2de5a6f05000ea96d32799a7b57f591ac72c4f5f21272acd1713ab0fa89255dad13090de0a668fd716e803bb70f59bd19efa50c438b0c93847e28e7b7ec10c95d708ab301ca4733fa3823a8c466e565cf8736c5cb75ea5625811c3663ee7bab4cfc7d16f200f441cab72f9f10d2f67512e63014522308dd840c262c0f3d0c432499417935c9a8412d60ee83cbb63214710dd5abd3bad5429a2530ea1e7c6d9ef5eee3e4c3145638a9a46f74f7cafe3b947be868da1c78ec2586ab2cea31ae5b938d82ade7089af8739d30f814d852403aa700dbe2102ff56632c30031f7d49601a7e292fc61cf59e842d39c24426446a56fde9d9c83fb89938cbf9a88320336c6697db98c0c27561fde0fa0f93d0c419171f2584baa9f98b11036cd744f72fe27236b426ee0728eb8ad95538699ba1f436ae11a8</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
@@ -234,185 +41,63 @@
   </div>
 </div>
 <script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
-            </div>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-              </div>
-              
-                <p class="note note-warning">
-                  
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
-                  
-                </p>
-              
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
     </div>
+
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div class="toc-body" id="toc-body"></div>
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
 </div>
-
-      </div>
-    
-  </div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
 </div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="">
+<input type="hidden" id="valine_appKey" value="">
 
-<!-- Custom -->
-
-
-    
-
-    
-      <a id="scroll-top-button" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-
-    
-  </main>
-
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-    与自己和解，与世界和解
-  </div>
-  
-
-  
-
-  
-</footer>
+<script src="/libs/jquery.min.js"></script>
 
 
-  <!-- SCRIPTS -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+<script src="/libs/highlight/highlight.pack.js"></script>
 
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
 
+<script src="/js/js.js"></script>
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
 
-<!-- Plugins -->
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
 
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
 
+.v a {
+    color: #8696b1;
+}
 
-
-  
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
-
-
-
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
-
-
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
-      
-      typing(title)
-      
-    })(window, document);
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    (function () {
-      var path = "/local-search.xml";
-      $('#local-search-input').on('click', function() {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      });
-      $('#modalSearch').on('shown.bs.modal', function() {
-        $('#local-search-input').focus();
-      });
-    })()
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
-<script  src="/js/boot.js" ></script>
-
-
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
 </body>
+
 </html>
