@@ -1,36 +1,229 @@
+
+
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>
-        何止
-    </title>
-    
-<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/bg/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+  <meta name="author" content="何止">
+  <meta name="keywords" content="">
+  
+  <title>面试 - 何止</title>
 
-    
-<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
-    
-<link rel="stylesheet" href="/css/style.css">
 
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
-<body id="bodyx">
-    <div class="hd posts">
-    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
-    <div class="post-title">
-        <p>
-            面试
-        </p>
-        <hr>
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>何止的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="post-content">
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="0655a0da563768b69b040a770f74e17b5c59d7bf68ce5aecf73aa6e5e280e1a4">243a5a51c8f989f24dae80ae7ef782d5281387df4bf2251411c0857f68e884c143dafbf107097f7eb4c6e15fe22f4a7b65dde22e24291533f45416a55b31bb47ce0ded10a148812b39c515014c02a27c1f2127b8cb6f8ccdd259c13f97df8563d2056f8b2d1470aa097248108c1049cef2037cb13af5875a1dfccf4804b638511bdc983d790337c045d8de7aa835d6585c17f8cc0db93c97aa89e0adc16f737e90197a83d9f451ed2364df65e8ed2dffaf53784e0a618d10d90f53cc90e543a820e9235dd3266d046502ce963a4911c8e6d2d6b0f39ef76333c54fb2e06e4083811f081e739ebacc75d131d5ffcc498941ee0fc7b710b90fe70cf79f60b97619f7df6c790f6c284c1f20813132e10d290f5b65662a6b2b354bf64e9bd7df90a04ee52db7c8596d44996c1c6e23b25c6ef4375c6bac27662952baa3914cc3e0999ce8e4045d746f01dd0932b60a74512b9a11a841f66d2d9911cb9ada4748ffabbbeca2da68ef22d7adda7848c73390f346bcf36309dd0967deab94612dcd89c91a141714ddcde6b5ec88424290dd2a0cb838fbfee5e01cf2c414b5ae4f71c40c9225e00882a68012ec5c07c68c9694a84a4fbaab1d8dfe1c2183d5f0ad40eaa2667fe163038de7cbe0dd2a09586937eb1ed050bf38e1617d4e7c852d2420874c6331bdfcc9d51b03a4ab3cc837c0dc69d7bd0b7a4bc314499d6deb63cc9f06e2ca42be51f74e2437b5f4edec71d5845482d54431d9cfef1cb34a628b155ab4e9f8f01435a270985e9c35b41ec07e719d0d07f57ffd2fe3667f08a4b0822fb320dcf4d6b3f4dd8728fc7dc5697e81913187d771b30caa632529598e8a8e974fa6f30e9581748563d0dc93adec6bcb974046adfcd19513c63410dc46e8a7f38a1c67c5e97a92eda98e0b2d2e2579615ff6fb667a13d1a03cc9d327e52e067333d66718ca31fe1e7a83b40597fc05a58d70afbc1ad9850f084b87722a779460d5e46262ceb9a80a93d60be147bf76b90ad5025851576096d765f54342ed50dadd8402a4d08b253f1d5cd3aa266ef5c93b9377bc9e84c00ed199fcd4115be732160816db5dbb835f8ee9b31de6150fa8ce4ccb09c5c77ee4908f8897cb09bc251c2e9fda82d18d35088c68b0136428365e67d9a3ba6fc42ee902fff8f62b0690140ed23dafc30dc78d96d9a6de239449f1605b722a84b0dde5c9932164a8fb8a42571cfd1544c281681489b3210ebcabea7a23b2a475f150d5286658a57c9c7ff346ac96e630073b52aadbe86ed9425f3af96439549a1bfdd1c304fd87ec0ab340a37d65c50927384dfa250a49e420355a823784b2043a970b2a69c6cd9f1e7811b2d28c9a33c69bf67f5ce561945113a89205109f439153584bc6cf421e80f39bd931e524b9e0dc847bdb3a76543ab8a5fd13e27d26b226a79a21c2ba531ac4e3e765fe2f7a9881a62b1289fe685670c74ba143502601ab80bb4881ce3e955b5e6a566b54bd5148601837fab60eb0adfc69c2f60646497898c3ea1d53e641869c49982ed857a257b967dc7aed074d290bb2469464f78f1e9bd0fd945c1a81877b3d6ad27d6b197ef03f3a203996fc249fc7a3a028998afaf45b118cd353dc5079ab91660d5bcb0b41194cb73971a4390ba89531c7c966da707a9568f391caf40cce014f09c0b203b803529c1a4825091edb83b057fc8e8cb4b55b5991e5159b9399b52f42b616f86a1faefab0e44a2b2f86e4b8560d822b00648f0cbf292a22db8bc0aa4cdd28c42bbe51fbf0ab3701419ce99dfcc9202567448b901d500e06d8384302acd6a8aee4c68c369789decc3cc2cc147c9bff94c7d6595079302a3e3f729956b3311c8d79dd6011d0e99cd06e33b1ffa9733d3af808692dfd13f3d6099c0f66335daca283d57e19325f4eb22bf03517fa04490f32a04164b555bd00467f9fcab0553235823148b09e71d2fefe88a9eb8948dc75450e08dcafb1862bfc1e91933b32f57e23fbc0d2e63dfaf42a4e8f59fa6d369cb7f98801d9da41775ec9be050e360397411a548e0cc1657e33e620f4c17b6ae2a01f01720acafae80138abbf2a86c1fa3f650f146ffa83cbfc5bbf9414fc5c9fa6767004ba3dfeec21267d4f85fc649c8a05a918328a2565e2e4168ac73a1aa989aff4a3a72fce0fd30445b1bf9c8beeb10e33b9b78b3522737f184c98f504c032c231c27a7ee3538bdf3305af8a88952d5337df63cb9bd340239e100da300c5a5310350776b6700ba9848de082e3c82746d053f8d7dcdbac1cc376fd2baf5c4f9d45a4d954a0d3ac433f6eb49dac070c3fa5a7764c5b37790ee64ddaa439795994b3d0515fc699fb390e2b968ea02b2a54946e242ef1fd5311bbed93465a2724aedccdb86e9cf0547222d98a418371cba4e2c97d79973134cc9357b4600f49554cc5afa7f47e8543f556e2d7d85b64960a8e5e935ae64dd885fbecb40f28cb0e3b39f6f784e59b214f534ca010077002e786413476adb5a24731a4a2081ceaa799437444b59bea60458df498b07a1dfde3d2be9e705bb66c6903b5800735f89a3706a71b1007b0c7958b116f2a8784532662a343f9a62618169c5ddaeb3d976524e3d2e3a1f561fc28d6452dbb0c8fb303cab6a7eca090f73d4</script>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="面试">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-08 21:22" pubdate>
+        2022年1月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">面试</h1>
+            
+            <div class="markdown-body">
+              <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="51cfd2df3e771399282b53622690b34e55fc078d64ef2bc6c1d9c312ef8ef647">243a5a51c8f989f24dae80ae7ef782d5281387df4bf2251411c0857f68e884c143dafbf107097f7eb4c6e15fe22f4a7b65dde22e24291533f45416a55b31bb47ce0ded10a148812b39c515014c02a27c1f2127b8cb6f8ccdd259c13f97df8563d2056f8b2d1470aa097248108c1049cef2037cb13af5875a1dfccf4804b638511bdc983d790337c045d8de7aa835d6585c17f8cc0db93c97aa89e0adc16f737e90197a83d9f451ed2364df65e8ed2dffaf53784e0a618d10d90f53cc90e543a820e9235dd3266d046502ce963a4911c8e6d2d6b0f39ef76333c54fb2e06e4083811f081e739ebacc75d131d5ffcc498941ee0fc7b710b90fe70cf79f60b97619f7df6c790f6c284c1f20813132e10d290f5b65662a6b2b354bf64e9bd7df90a04ee52db7c8596d44996c1c6e23b25c6ef4375c6bac27662952baa3914cc3e0999ce8e4045d746f01dd0932b60a74512b9a11a841f66d2d9911cb9ada4748ffabbbeca2da68ef22d7adda7848c73390f346bcf36309dd0967deab94612dcd89c91a141714ddcde6b5ec88424290dd2a0cb838fbfee5e01cf2c414b5ae4f71c40ccd6a68f26d09ba656de507dedf73f84f41ae0f15f4a71399774fdb2642df63c94652a9fa9cd3248bfe0c7c31e76be61c3728edc2ec8efb1a594a8c903235d6d4784d28f43d9e676736614fc08ccf1343be34c8c362154d625d521ccc8d485097e35342ecbd776cf2505642f02cacc5679ceb1aa1f4555ce3050ea11129c55e355333f374266e52a717600751a8214619ddcefbab343ab68b28be26fa74e6f812df5959905a533c9b74d77a8ade8c3eba366cf399cd87ec50ba00be88aca93f0d331211cfd89f7789ee50cae88b069cfef06854a723493ebd6a9aa3dbef36a74949fa9229bc8cf3331ef8406989bb29ad07beb19496c48b2615a48db746acc4871765408e8e012d0c422fd5486f5a9504aff080cfefd5bf7b21da013bae06e0f3bc2a042f85511b2d772892fe8eb9314a2d2c3431a926b4246690a91b697bdfa481d9137013395d42469a674f3f703b2d710cc41f3feba0558c9391a75c3d56576bcf3f92b909608ea347d870d50397b1a8aa9b098862028024e2bdd3c9abe88a6ec7d6c4a5badfd08dbb8e74b99be35a250ed013a915eaef39599a35b99a72457495dc34953fcbf209cd2c53c88ee7adfc758bccf39c5f033e657501630e4e0a6011945189825a5904c5188bc6701bb84ab2d4fa093f332001222685468be4595e3fc98f309f87df6a5571fb2bfbc3f798d504ac70881baadc88e5efa07598362b137bf770d0f41cc71081e436af6fab32ac7b67d9232502c4ed9439ef7473e7667660abbc7303351a4ed4da7b80651e051a0667db6116c0c054f5cea342a2a7bd5ccbba398b6bb1361bee9ae0f191c9434021cf8291c50f03c8b7de524d8e1a94dd7891905881bf13800848c33965c4c8e7979eb4e9805beaca907441f380d00825c7b4e8d9d7cca7ae974e5864bc8202a38d30217d733daba70241411563d827817d7e140ad30c8cf5a6ab662096c501b67492422268d4d414a85f78cafc61d5767a64ee8c47cafc971bf2d4148dd560a81ecf6064b9f83a55f7b92b1ab5e92362ada1d1f137af0ae6699b9bf68a4cca25f8724c3008faf3cb0cc161eb1ea7677a871e7ae7cbdf06486d790b04be121c7bb969cc4b4e6a1e9b9d5af07c7ce3740dd5c326de185d3d631c1f4935d9283c5ff2fd948299cc878e94b9a7ec68b2f31fd73703fa05be7bd749f1c86bfc6e83960e94ee1e357ac6f197dd0fac2147e82a25ad3eaa9991b58cfbfb50983a759971f07267d2493d2cc0659250b9ae3dc52bcb85f68c4c4d2f96f879f3059d4a732d4d87a9b15f74fbea30bb00608b6977f5b5d482267920ca781593a0c78f9af2f750154e9aea2a4e232ebf39e8f185c0964fe42b73a71591a5f90c56d9213a7177cc0ed233553036de4a2402c9fd806c28778a9f31d369d2824e73c53acc66652beb9278c7352122e428d9c5c83e4a22691bba5d03190cab45852e937bd56c07bdb1befd2b3592a37d53bffc3a92f9d0420b61db433a3d6e44918e026aeefde58910ca38781fcca6749a44fbed106d5893e233084fd673dc78e1a31dcc442ce989d9f0e16d684f46cec75ef3e52d0ee657836e0c1004020f387865637517aa9c2877e223fa34e6b3a2d58c28cf1a8936f01ac60a95b13198a49e2b4bb36cb40de633697346434e9953e16c9823186ff1a85d2add2626c58ec29f550cf925dfa3bc2a32db249d5d5f8032ba2fce6a84b7eba93d7d619eaa14b21ab14db9d4d3fa94086c5d7b0b87fff50302715a4f574e4975b45b279634d7ef8f50b86cccea2f3166b2e09948b2338d581e300c0e4aa5a6b2afacbf58d17d23a95d03ec9960af2bfaee0709e8828846b2e0b27a07b2a80c20aecab24e335bf284b7a13aadad53128b9830adae5ff268014be65d57683e748d9a9e787615b6515b19781607d22537e1141748d71350f1eeaed7a2e748dcc75b0dba94953ad5525a0cc6f89fb07843e15ce7a94b1c6ed7b8cea6f6f4276718d81ef7405ba6791d5efcb50214d4d08f2eba8e737a489c5aee773b856bbeb301e2bac5b36ffada45a92ead2157e89713f63b20638a22811f5ba096e53fee</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
@@ -41,63 +234,185 @@
   </div>
 </div>
 <script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
 
     
-        <hr class="fhr">
-        <div id="vcomments"></div>
+
     
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
 </div>
-    <div class="footer" id="footer">
-    <p>Copyright © 2022 何止</a>.
-        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
-            <input type="checkbox" name="switch" id="update_style">
-            <span class="el-switch-style"></span>
-        </label>
-<!--         <script type="text/javascript">
-        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
-        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
-        </script> -->
-    </p>
-</div>
-<input type="hidden" id="web_style" value="black">
-<input type="hidden" id="valine_appid" value="IxFMlnhlVtQfoUGr9ijp8odV-gzGzoHsz">
-<input type="hidden" id="valine_appKey" value="PgOqIqKdyrNfiySdX8j4YeV0">
+    
 
-<script src="/libs/jquery.min.js"></script>
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    与自己和解，与世界和解
+  </div>
+  
+
+  
+
+  
+</footer>
 
 
-<script src="/libs/highlight/highlight.pack.js"></script>
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
 
-<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
-<script src="/js/js.js"></script>
 
-<style type="text/css">
-.v * {
-    color: #698fca;
-}
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
-.v .vlist .vcard .vhead .vsys {
-    color: #3a3e4a;
-}
+<!-- Plugins -->
 
-.v .vlist .vcard .vh .vmeta .vat {
-    color: #638fd5;
-}
 
-.v .vlist .vcard .vhead .vnick {
-    color: #6ba1ff;
-}
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
-.v a {
-    color: #8696b1;
-}
 
-.v .vlist .vcard .vhead .vnick:hover {
-    color: #669bfc;
-}
-</style>
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
 </body>
-
 </html>

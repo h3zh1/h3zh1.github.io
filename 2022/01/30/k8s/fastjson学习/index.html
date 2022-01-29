@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/bg/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="何止">
+  <meta name="keywords" content="">
+  
+  <title>fastjson反序列化学习 - 何止</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>何止的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="fastjson反序列化学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-30 04:11" pubdate>
+        2022年1月30日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">fastjson反序列化学习</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Fastjson简单使用"><a href="#Fastjson简单使用" class="headerlink" title="Fastjson简单使用"></a>Fastjson简单使用</h2><p>先定义一个Student.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>    <span class="hljs-keyword">private</span> String name;<br>		<span class="hljs-comment">//注意两点</span><br>  	<span class="hljs-comment">//1. 此处目前只有两个属性值，age和name，写完第一个分析之后会加入一个属性&quot;hello&quot;，hello属性将没有set和get</span><br>    <span class="hljs-comment">//2. 下方的setNoting与之后的hello，只是用于实验确定只有存在属性age和name才能执行相应的get和set</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Student</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;构造方法……&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;getAge……&quot;</span>);<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;setAge……并触发calc&quot;</span>);<br>        Runtime.getRuntime().exec(<span class="hljs-string">&quot;open /System/Applications/Calculator.app&quot;</span>);<br>        <span class="hljs-keyword">this</span>.age = age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;getName……&quot;</span>);<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;setName……&quot;</span>);<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNothing</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-comment">//由于没有Noting这个field所以不会被调用</span><br>        System.out.println(<span class="hljs-string">&quot;setNoting……&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getNothing</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-comment">//不会被调用</span><br>        System.out.println(<span class="hljs-string">&quot;getNoting……&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Object-gt-jsonString"><a href="#Object-gt-jsonString" class="headerlink" title="Object==&gt;jsonString"></a>Object==&gt;jsonString</h3><p>SerializerFeature有一些属性，详情参考 : <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zouhong/p/14436858.html">https://www.cnblogs.com/zouhong/p/14436858.html</a></p>
+<p>SerializerFeature.WriteClassName可以把序列化时写入类型信息</p>
+<p>在序列化的时候会写入一个@type，并写上被序列化的类名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.parser.Feature;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.serializer.SerializerFeature;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>      	System.out.println(<span class="hljs-string">&quot;========init========&quot;</span>);<br>        Student student = <span class="hljs-keyword">new</span> Student();<br>        student.setName(<span class="hljs-string">&quot;hack&quot;</span>);<br>        student.setAge(<span class="hljs-number">18</span>);<br><br>        System.out.println(<span class="hljs-string">&quot;========toJson========&quot;</span>);<br>        String jsonString = JSON.toJSONString(student);<br>        System.out.println(jsonString);<br>				<br>				<span class="hljs-comment">// WriteClassName的含义</span><br>				<span class="hljs-comment">// 序列化时写入类型信息，默认为false，反序列化时需用到</span><br>        <span class="hljs-comment">// 在序列化的时候会多写入一个@type，并写上被序列化的类名</span><br>        System.out.println(<span class="hljs-string">&quot;========SerializerFeature.WriteClassName===============&quot;</span>);<br>        jsonString = JSON.toJSONString(student, SerializerFeature.WriteClassName);<br>        System.out.println(jsonString);<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gytxq6w05kj30il08twez.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129021210104"></p>
+<h3 id="String-gt-object"><a href="#String-gt-object" class="headerlink" title="String==&gt;object"></a>String==&gt;object</h3><p>触发反序列化与不触发</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.parser.Feature;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.serializer.SerializerFeature;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            System.out.println(<span class="hljs-string">&quot;========不触发========&quot;</span>);<br>            String payload1 = <span class="hljs-string">&quot;&#123;\&quot;age\&quot;:18,\&quot;name\&quot;:\&quot;hack\&quot;&#125;&quot;</span>;<br>            Object object1 = JSON.parse(payload1);<br>            System.out.println(object1);<br><br>            System.out.println(<span class="hljs-string">&quot;========@type触发========&quot;</span>);<br>            String payload2 = <span class="hljs-string">&quot;&#123;\&quot;@type\&quot;:\&quot;Student\&quot;,\&quot;age\&quot;:18,\&quot;name\&quot;:\&quot;hack\&quot;&#125;&quot;</span>;<br>            JSON.parse(payload2);<span class="hljs-comment">//两种方法都可以触发</span><br>            JSON.parseObject(payload2);<span class="hljs-comment">//</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gytxr8e7csj30i508bwew.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129021313158"></p>
+<h3 id="调用分析"><a href="#调用分析" class="headerlink" title="调用分析"></a>调用分析</h3><blockquote>
+<p>  FastJSON中需要createJavaBeanSerializer方法获取两种序列化类，一种是直接的JavaBeanSerializer（根据类的get方法、public filed等JavaBean特征序列化），另一种是createASMSerializer（通过ASM框架生成的序列化字节码），优先使用第二种。</p>
+</blockquote>
+<p>首先分析如下payload</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<span class="hljs-attr">&quot;@type&quot;</span>:<span class="hljs-string">&quot;Student&quot;</span>,<span class="hljs-attr">&quot;age&quot;</span>:<span class="hljs-number">18</span>,<span class="hljs-attr">&quot;name&quot;</span>:<span class="hljs-string">&quot;hack&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在触发<code>Object object1 = JSON.parse(payload1);</code>后，会进行如下调用</p>
+<ol>
+<li><p>首先是DefaultJSONParser.class中com.alibaba.fastjson.JSON.parse()</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gyty5sujwhj30t209bgms.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129022710213"></p>
+</li>
+<li><p>new一个DefaultJSONParser</p>
+<p> 首先，参数包括ParserConfig.getGlobalInstance()和缺省的features。其中ParserConfig.getGlobalInstance()会得到一个实例化的ParserConfig。</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gytyd8p37nj30ks0aywg4.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129023422244"></p>
+<p> 其次，生成一个JSONScanner，JSONScanner继承了JSONLexerBase是是词法解析的具体实现类，本处lexer就是解析的对象。</p>
+<p> 之后，调用DefaultJSONParser的构造方法，JSONScanner在接收到input开始进行词法分析，部分相关变量解释如下：</p>
+<p> text：json文本数据</p>
+<p> len：json文本数据长度</p>
+<p> token：代表解析到的这一段数据的类型</p>
+<p> ch：当前读取到的字符</p>
+<p> symbolTable：符号表，它可以根据传入的字符，进而解析知道你想要读取的一段字符串</p>
+<p> input：需要解析的json</p>
+<p> lexer.getCurrent()：获取当前的字符</p>
+<p> lexer.next()：移动到下一个字符</p>
+<p> bp：当前字符索引</p>
+<p> sbuf：正在解析段的数据，char数组</p>
+<p> sp：sbuf最后一个数据的索引</p>
+<p> hasSpecial=false：需要初始化或者扩容sbuf</p>
+<p> 然后，直到代码进行到<code>ch ==&#39;&#123;&#39;</code>确定token为12，至此完成DefaultJSONParser实例化……</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gytyy70xz7j30sy0ej0up.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129024504331"></p>
+</li>
+<li><p>完成DefaultJSONParser实例化后进入parse方法后，switch到<code>case 12</code>处</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gytzbiwocqj30fa07baad.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129030716341"></p>
+<p> (注：FastJson转换时默认使用HashMap，Feature.OrderedField的含义是：只对第一层的key进行排序即根据HASH值排序)</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gytz94qxvhj30no01xwek.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129030500720"></p>
+<ol start="4">
+<li><p>进入parseObject方法，进行key value的提取的过程。</p>
+<p> 首先是提取过程：</p>
+<p> lexer.skipWhitespace()内部调用循环跳过<code>\r,\n,\t,\f,\b,空格</code>等字符，</p>
+<p> <code>while(ch == &#39;,&#39;) </code>一句用于分开每一对<code>key：value</code></p>
+<p> key和value的提取方法是调用scanSymbol方法，如：<code>key = lexer.scanSymbol(this.symbolTable, &#39;&quot;&#39;);</code>的含义是获取双引号包裹的字符串为@type，并赋值给key变量</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gytzfa2dbzj30t40l9mzl.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129031054284"></p>
+<p> 然后进行调用if来对<strong>autotype</strong>进行check：</p>
+<p> 紧接着进入if分支，发现key为”@type”后，就进行对”Student”提取然后使用loadClass方法加载Student类，但此时后续的操作均未进行。（注：Student的提取方法仍然是使用<code>lexer.scanSymbol(this.symbolTable, &#39;&quot;&#39;);</code>）</p>
+<p> ​    <img src="https://tva1.sinaimg.cn/large/008i3skNly1gyu02mrq52j30z70jsn0g.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129033217160"></p>
+<p> loadClass部分如下图</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gyu0991lwoj30v205odgl.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129033930307"></p>
+</li>
+</ol>
+</li>
+<li><p>最后创建deserializer来进行反序列化</p>
+<p> <img src="https://tva1.sinaimg.cn/large/008i3skNly1gyu0byvqykj30te07ddgm.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129034220773"></p>
+</li>
+</ol>
+<p>首先，getDeserializer创建JavaBeanDeserializer调用 <code> derializer = this.createJavaBeanDeserializer(clazz, (Type)type);</code></p>
+<p>进入createJavaBeanDeserializer方法后会调用JavaBeanInfo.build()    </p>
+<p>​    <img src="../../../../../TyporaPic/image-20220129034649188.png" srcset="/img/loading.gif" lazyload alt="image-20220129034649188"></p>
+<p>然后，build部分使用TypeUtils进行反射获取Student类的属性值和各种方法加入到List中，其中对方法判断如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (methodName.length() &gt;= <span class="hljs-number">4</span> &amp;&amp; !Modifier.isStatic(method.getModifiers()) &amp;&amp; (method.getReturnType().equals(Void.TYPE) || method.getReturnType().equals(method.getDeclaringClass()))) &#123;<br></code></pre></td></tr></table></figure>
+
+<p>​    <img src="../../../../../TyporaPic/image-20220129035535746.png" srcset="/img/loading.gif" lazyload alt="image-20220129035535746"></p>
+<p>最后调试的时候会出现debug而不能看到跟进代的代码，原因是使用FastjsonASMDeserializer处理时，ASM机制生成的临时代码是无法看到的，过程中会调用set和get。</p>
+<ol start="5">
+<li> !!开始补之前的漏</li>
+</ol>
+<p>(这个起因是看文章的时候发现有的写ASM机制，有的写parseField，然而我开始并没有使用templatesimpl调了几遍发现只有ASM)</p>
+<p>分析第二个payload，分析之前我们先补充一个属性，注意没有get和set。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><span class="hljs-keyword">private</span> String name;<br><span class="hljs-keyword">private</span> String hello;<span class="hljs-comment">// 注意：没有get和set</span><br></code></pre></td></tr></table></figure>
+
+<p>第二个payload</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<span class="hljs-attr">&quot;@type&quot;</span>:<span class="hljs-string">&quot;Student&quot;</span>,<span class="hljs-attr">&quot;age&quot;</span>:<span class="hljs-number">18</span>,<span class="hljs-attr">&quot;name&quot;</span>:<span class="hljs-string">&quot;hack&quot;</span>,<span class="hljs-attr">&quot;hello&quot;</span>:<span class="hljs-string">&quot;123&quot;</span>&#125; <span class="hljs-comment">//多了hello</span><br></code></pre></td></tr></table></figure>
+
+<p>打一个断点如下图：JavaBeanDeserializer.class下的deserialze函数，然后开始debugg后会发现和第一个分析里的ASM加载有一些不一样。其实也不是不一样，只是因为hello属性并没有get和set并不能使用进行ASM的处理方式。</p>
+<p><img src="../../../../../TyporaPic/image-20220130022431214.png" srcset="/img/loading.gif" lazyload alt="image-20220130022431214"></p>
+<p>调用setter和getter的时机</p>
+<ul>
+<li>  对于method不为空的fieldInfo，若getOnly为false，则直接反射执行method来赋值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">FieldDeserializer fieldDeserializer = getFieldDeserializer(entry.getKey());<br><span class="hljs-keyword">if</span> (fieldDeserializer != <span class="hljs-keyword">null</span>) &#123;<br>    fieldDeserializer.setValue(object, entry.getValue());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>  对于若getOnly为true，也就是只存在对应字段field的getter，而不存在setter，则会对其method的返回类型进行判断，若符合，才会进行反射执行该method对于我们的本payload的hello属性就符合此处</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gyv6nc7c68j30pp0f3tb0.jpg" srcset="/img/loading.gif" lazyload alt="image-20220130040623226">    </p>
+<p>下图为最后hello就通过filed.set来完成赋值<img src="https://tva1.sinaimg.cn/large/008i3skNly1gyv6oq6dc2j30sp03074l.jpg" srcset="/img/loading.gif" lazyload alt="image-20220130040746593"></p>
+<h3 id="一些疑问-amp-或许不太正确的回答"><a href="#一些疑问-amp-或许不太正确的回答" class="headerlink" title="一些疑问&amp;或许不太正确的回答"></a>一些疑问&amp;或许不太正确的回答</h3><ul>
+<li><p>ASM是什么?</p>
+<p>  asm是assembly的缩写，是汇编的称号，对于java而言，asm就是字节码级别的编程。 </p>
+<p>  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zt007/p/6377789.html">https://www.cnblogs.com/zt007/p/6377789.html</a></p>
+</li>
+<li><p>为什么fastjson里用了ASM？下面文字摘了几篇fastjson为什么快的文章？</p>
+<ol>
+<li><p>普通序列化反序列化过程：</p>
+<p> ​        在序列化时使用反射读取POJO的属性名，以及反射调用属性名对应的get方法获取value，然后将拿到的属性名与value拼接而成JSON字符串，在反序列化的时候又反射调用set方法进行属性的设置。这种思路是最简单的，其也是最低效的。</p>
+</li>
+<li><p>FastJSON中的改进：</p>
+<p> 在FastJSON中，使用了ASM框架自己编写字节码，然后使用ClassLoader将自定义的字节码加载成为类，变为特定POJO的序列化器，属性名和属性value将不需要反射获取，减少了这部分的反射开销。所以FastJSON中优先调用ASM框架。</p>
+</li>
+</ol>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/26/pwnlean/lab1/">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    与自己和解，与世界和解
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
