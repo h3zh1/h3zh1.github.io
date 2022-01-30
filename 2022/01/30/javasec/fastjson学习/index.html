@@ -14,7 +14,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="本文学习一下fastjson漏洞">
   <meta name="author" content="何止">
   <meta name="keywords" content="">
   
@@ -140,6 +140,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
@@ -170,6 +182,11 @@
             
               <div class="mt-3">
   
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      何止
+    </span>
+  
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
@@ -182,6 +199,12 @@
 
 <div class="mt-1">
   
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
 
   
     
@@ -189,12 +212,14 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      24
+      31
        分钟
     </span>
   
 
   
+  
+    
   
 </div>
 
@@ -221,9 +246,18 @@
             <!-- SEO header -->
             <h1 style="display: none">fastjson反序列化学习</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：10 分钟前
+                
+              </p>
+            
             <div class="markdown-body">
-              <h2 id="Fastjson简单使用"><a href="#Fastjson简单使用" class="headerlink" title="Fastjson简单使用"></a>Fastjson简单使用</h2><p>先定义一个Student.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>    <span class="hljs-keyword">private</span> String name;<br>		<span class="hljs-comment">//注意两点</span><br>  	<span class="hljs-comment">//1. 此处目前只有两个属性值，age和name，写完第一个分析之后会加入一个属性&quot;hello&quot;，hello属性将没有set和get</span><br>    <span class="hljs-comment">//2. 下方的setNoting与之后的hello，只是用于实验确定只有存在属性age和name才能执行相应的get和set</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Student</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;构造方法……&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;getAge……&quot;</span>);<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;setAge……并触发calc&quot;</span>);<br>        Runtime.getRuntime().exec(<span class="hljs-string">&quot;open /System/Applications/Calculator.app&quot;</span>);<br>        <span class="hljs-keyword">this</span>.age = age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;getName……&quot;</span>);<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;setName……&quot;</span>);<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNothing</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-comment">//由于没有Noting这个field所以不会被调用</span><br>        System.out.println(<span class="hljs-string">&quot;setNoting……&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getNothing</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-comment">//不会被调用</span><br>        System.out.println(<span class="hljs-string">&quot;getNoting……&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+              <p>本文学习一下fastjson漏洞</p>
+<span id="more"></span>
+
+<h2 id="Fastjson简单使用"><a href="#Fastjson简单使用" class="headerlink" title="Fastjson简单使用"></a>Fastjson简单使用</h2><p>先定义一个Student.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>    <span class="hljs-keyword">private</span> String name;<br>		<span class="hljs-comment">//注意两点</span><br>  	<span class="hljs-comment">//1. 此处目前只有两个属性值，age和name，写完第一个分析之后会加入一个属性&quot;hello&quot;，hello属性将没有getter和setter</span><br>    <span class="hljs-comment">//2. 下方的setNoting与之后的hello，只是用于实验确定只有存在属性age和name才能执行相应的get和set</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Student</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;构造方法……&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;getAge……&quot;</span>);<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;setAge……并触发calc&quot;</span>);<br>        Runtime.getRuntime().exec(<span class="hljs-string">&quot;open /System/Applications/Calculator.app&quot;</span>);<br>        <span class="hljs-keyword">this</span>.age = age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;getName……&quot;</span>);<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;setName……&quot;</span>);<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNothing</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-comment">//由于没有Noting这个field所以不会被调用</span><br>        System.out.println(<span class="hljs-string">&quot;setNoting……&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getNothing</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-comment">//不会被调用</span><br>        System.out.println(<span class="hljs-string">&quot;getNoting……&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="Object-gt-jsonString"><a href="#Object-gt-jsonString" class="headerlink" title="Object==&gt;jsonString"></a>Object==&gt;jsonString</h3><p>SerializerFeature有一些属性，详情参考 : <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zouhong/p/14436858.html">https://www.cnblogs.com/zouhong/p/14436858.html</a></p>
 <p>SerializerFeature.WriteClassName可以把序列化时写入类型信息</p>
@@ -291,24 +325,24 @@
 </ol>
 <p>首先，getDeserializer创建JavaBeanDeserializer调用 <code> derializer = this.createJavaBeanDeserializer(clazz, (Type)type);</code></p>
 <p>进入createJavaBeanDeserializer方法后会调用JavaBeanInfo.build()    </p>
-<p>​    <img src="../../../../../TyporaPic/image-20220129034649188.png" srcset="/img/loading.gif" lazyload alt="image-20220129034649188"></p>
+<p>​    <img src="https://tva1.sinaimg.cn/large/008i3skNly1gyvtxuzosij31300c8jtc.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129034649188"></p>
 <p>然后，build部分使用TypeUtils进行反射获取Student类的属性值和各种方法加入到List中，其中对方法判断如下</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (methodName.length() &gt;= <span class="hljs-number">4</span> &amp;&amp; !Modifier.isStatic(method.getModifiers()) &amp;&amp; (method.getReturnType().equals(Void.TYPE) || method.getReturnType().equals(method.getDeclaringClass()))) &#123;<br></code></pre></td></tr></table></figure>
 
-<p>​    <img src="../../../../../TyporaPic/image-20220129035535746.png" srcset="/img/loading.gif" lazyload alt="image-20220129035535746"></p>
+<p>​    <img src="https://tva1.sinaimg.cn/large/008i3skNly1gyvtxnqu9jj30ut0irmzz.jpg" srcset="/img/loading.gif" lazyload alt="image-20220129035535746"></p>
 <p>最后调试的时候会出现debug而不能看到跟进代的代码，原因是使用FastjsonASMDeserializer处理时，ASM机制生成的临时代码是无法看到的，过程中会调用set和get。</p>
 <ol start="5">
-<li> !!开始补之前的漏</li>
+<li> !!补漏</li>
 </ol>
-<p>(这个起因是看文章的时候发现有的写ASM机制，有的写parseField，然而我开始并没有使用templatesimpl调了几遍发现只有ASM)</p>
-<p>分析第二个payload，分析之前我们先补充一个属性，注意没有get和set。</p>
+<p>(这个起因是看文章的时候发现有的写ASM机制，有的人又说调用parseField，然而我开始并没注意的太全面，调了多遍发现只有ASM机制部分于是有了如下的实验)</p>
+<p>分析第二个payload，分析之前我们先补充一个属性，注意没有getter和setter。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><span class="hljs-keyword">private</span> String name;<br><span class="hljs-keyword">private</span> String hello;<span class="hljs-comment">// 注意：没有get和set</span><br></code></pre></td></tr></table></figure>
 
 <p>第二个payload</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<span class="hljs-attr">&quot;@type&quot;</span>:<span class="hljs-string">&quot;Student&quot;</span>,<span class="hljs-attr">&quot;age&quot;</span>:<span class="hljs-number">18</span>,<span class="hljs-attr">&quot;name&quot;</span>:<span class="hljs-string">&quot;hack&quot;</span>,<span class="hljs-attr">&quot;hello&quot;</span>:<span class="hljs-string">&quot;123&quot;</span>&#125; <span class="hljs-comment">//多了hello</span><br></code></pre></td></tr></table></figure>
 
 <p>打一个断点如下图：JavaBeanDeserializer.class下的deserialze函数，然后开始debugg后会发现和第一个分析里的ASM加载有一些不一样。其实也不是不一样，只是因为hello属性并没有get和set并不能使用进行ASM的处理方式。</p>
-<p><img src="../../../../../TyporaPic/image-20220130022431214.png" srcset="/img/loading.gif" lazyload alt="image-20220130022431214"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gyvtwd0hhsj312p0hijul.jpg" srcset="/img/loading.gif" lazyload alt="image-20220130022431214"></p>
 <p>调用setter和getter的时机</p>
 <ul>
 <li>  对于method不为空的fieldInfo，若getOnly为false，则直接反射执行method来赋值</li>
@@ -347,7 +381,7 @@
               
                 <p class="note note-warning">
                   
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                    文章转载请联系博主 : hanjun_1221@163.com
                   
                 </p>
               
@@ -360,8 +394,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/26/pwnlean/lab1/">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2022/01/21/pwnlean/lab1/">
+                        <span class="hidden-mobile">pwn学习之Buffer Overflow</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -371,6 +405,40 @@
               
             </div>
 
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.lazyComments('valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "IxFMlnhlVtQfoUGr9ijp8odV-gzGzoHsz",
+          app_key: "PgOqIqKdyrNfiySdX8j4YeV0",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: true,
+          serverURLs: "https://ixfmlnhl.lc-cn-n1-shared.com",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
             
           </article>
         </div>
@@ -428,9 +496,34 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-    与自己和解，与世界和解
+    与自己和解
   </div>
   
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
 
   
 
